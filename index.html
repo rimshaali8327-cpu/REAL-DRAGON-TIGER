@@ -3,752 +3,152 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dragon Tiger — Lacquer Hall</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Dragon Tiger - Lacquer Hall</title>
+<link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com" rel="stylesheet">
 <style>
   :root{
-    --black:#0b0705;
-    --panel:#150b09;
-    --lacquer:#6e0f1a;
-    --deep-red:#3d0810;
-    --gold:#c9a227;
-    --gold-bright:#e8c766;
-    --ivory:#f2e6c9;
-    --muted:#a68f6b;
-    --jade:#2f6f5e;
-    --jade-bright:#3f9c81;
-    --danger:#c1452e;
+    --black:#0b0705; --panel:#150b09; --lacquer:#6e0f1a; --deep-red:#3d0810; --gold:#c9a227; --gold-bright:#e8c766; --ivory:#f2e6c9; --muted:#a68f6b; --jade-bright:#3f9c81; --danger:#c1452e;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    font-family:'Noto Sans',sans-serif;
-    background:
-      radial-gradient(circle at 20% 0%, rgba(110,15,26,0.35), transparent 45%),
-      radial-gradient(circle at 80% 100%, rgba(201,162,39,0.10), transparent 50%),
-      var(--black);
-    color:var(--ivory);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    padding:28px 14px;
+    font-family:'Noto Sans',sans-serif; background: radial-gradient(circle at 20% 0%, rgba(110,15,26,0.35), transparent 45%), radial-gradient(circle at 80% 100%, rgba(201,162,39,0.10), transparent 50%), var(--black); color:var(--ivory); min-height:100vh; display:flex; justify-content:center; padding:28px 14px;
   }
   #app{width:100%;max-width:460px;}
-
   h1,h2,h3{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.02em;}
-
   .frame{
-    position:relative;
-    background:linear-gradient(180deg,var(--panel),#0e0705);
-    border:1px solid rgba(201,162,39,0.35);
-    border-radius:6px;
-    padding:26px 22px;
+    position:relative; background:linear-gradient(180deg,var(--panel),#0e0705); border:1px solid rgba(201,162,39,0.35); border-radius:6px; padding:26px 22px;
   }
   .frame::before,.frame::after{
-    content:"";position:absolute;width:16px;height:16px;
-    border:1.5px solid var(--gold);opacity:.75;
+    content:"";position:absolute;width:16px;height:16px; border:1.5px solid var(--gold);opacity:.75;
   }
   .frame::before{top:6px;left:6px;border-right:none;border-bottom:none;}
   .frame::after{bottom:6px;right:6px;border-left:none;border-top:none;}
-  .frame .corner-tr,.frame .corner-bl{position:absolute;width:16px;height:16px;border:1.5px solid var(--gold);opacity:.75;}
-  .frame .corner-tr{top:6px;right:6px;border-left:none;border-bottom:none;}
-  .frame .corner-bl{bottom:6px;left:6px;border-right:none;border-top:none;}
-
   .hairline{height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.5),transparent);margin:18px 0;}
-
-  /* ---------- Top bar ---------- */
   .topbar{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;}
   .brand-title{font-size:23px;color:var(--gold-bright);}
   .brand-sub{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:2px;}
   .player-chip{text-align:right;font-size:12px;color:var(--muted);}
   .player-chip .coins{color:var(--gold-bright);font-weight:700;font-size:15px;display:block;margin-top:2px;}
-
-  /* ---------- Buttons / inputs ---------- */
   .field{margin-bottom:14px;}
   .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;}
   .field input{
-    width:100%;padding:11px 12px;border-radius:4px;
-    background:#0f0806;border:1px solid rgba(201,162,39,.3);
-    color:var(--ivory);font-size:14px;font-family:'Noto Sans',sans-serif;
+    width:100%;padding:11px 12px;border-radius:4px; background:#0f0806;border:1px solid rgba(201,162,39,.3); color:var(--ivory);font-size:14px;
   }
-  .field input:focus{outline:none;border-color:var(--gold);}
   .btn{
-    width:100%;padding:13px;border-radius:4px;border:1px solid transparent;
-    font-family:'Cinzel',serif;font-weight:600;font-size:14px;letter-spacing:.03em;
-    cursor:pointer;transition:filter .15s ease;
+    width:100%;padding:13px;border-radius:4px;border:1px solid transparent; font-family:'Cinzel',serif;font-weight:600;font-size:14px;cursor:pointer;
   }
-  .btn:hover{filter:brightness(1.08);}
-  .btn:disabled{opacity:.45;cursor:not-allowed;filter:none;}
   .btn-gold{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;}
-  .btn-outline{background:transparent;border:1px solid rgba(201,162,39,.45);color:var(--gold-bright);}
-  .btn-jade{background:linear-gradient(180deg,var(--jade-bright),var(--jade));color:#08211a;}
-  .btn-danger{background:transparent;border:1px solid rgba(193,69,46,.6);color:#e08066;}
-  .link-btn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:0;}
-
-  .status-msg{font-size:13px;text-align:center;min-height:18px;margin-top:10px;}
-  .status-ok{color:var(--jade-bright);}
-  .status-err{color:#e08066;}
-
-  /* ---------- Auth screen ---------- */
-  .tabs{display:flex;gap:6px;margin-bottom:18px;}
-  .tab-btn{flex:1;padding:9px;background:transparent;border:1px solid rgba(201,162,39,.25);
-    color:var(--muted);font-family:'Cinzel',serif;font-size:12px;letter-spacing:.05em;border-radius:4px;cursor:pointer;}
-  .tab-btn.active{background:rgba(201,162,39,.12);color:var(--gold-bright);border-color:var(--gold);}
-
-  .capture-box{
-    border:1px dashed rgba(201,162,39,.4);border-radius:6px;padding:12px;text-align:center;margin-bottom:14px;
-  }
-  .capture-box video,.capture-box img{
-    width:100%;max-width:220px;border-radius:4px;margin:0 auto 10px;display:block;border:1px solid rgba(201,162,39,.3);
-  }
-  .capture-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;}
-
-  /* ---------- Pending / rejected ---------- */
-  .center-note{text-align:center;padding:30px 10px;}
-  .center-note .glyph{font-size:34px;margin-bottom:14px;}
-  .center-note h2{color:var(--gold-bright);font-size:18px;margin-bottom:10px;}
-  .center-note p{font-size:13px;color:var(--muted);line-height:1.7;}
-
-  /* ---------- Game table ---------- */
-  .bonus-row{
-    display:flex;justify-content:space-between;align-items:center;
-    background:#0f0806;border:1px solid rgba(201,162,39,.25);border-radius:5px;
-    padding:10px 14px;margin-bottom:14px;font-size:12px;
-  }
   .table{
-    display:flex;justify-content:space-between;align-items:center;
-    background:linear-gradient(180deg,#1a0a0b,#0e0505);
-    border:1px solid var(--lacquer);border-radius:6px;padding:26px 10px;margin-bottom:14px;
-    position:relative;
+    display:flex;justify-content:space-between;align-items:center; background:linear-gradient(180deg,#1a0a0b,#0e0505); border:1px solid var(--lacquer);border-radius:6px;padding:26px 10px;margin-bottom:14px;
   }
   .card-slot{text-align:center;flex:1;}
   .card-slot h2{font-size:12px;letter-spacing:.18em;margin-bottom:10px;color:var(--muted);}
-  #dragonSlot h2{color:#9fc7ff;}
-  #tigerSlot h2{color:#ffb56b;}
+  #dragonSlot h2{color:#9fc7ff;} #tigerSlot h2{color:#ffb56b;}
   .card{
-    width:64px;height:92px;background:linear-gradient(180deg,#fbf3dd,#f2e2b3);color:#241304;
-    border-radius:6px;display:flex;align-items:center;justify-content:center;
-    font-size:26px;font-family:'Cinzel',serif;font-weight:700;margin:0 auto;
-    box-shadow:0 0 18px rgba(201,162,39,.35);border:1px solid var(--gold);
+    width:64px;height:92px;background:linear-gradient(180deg,#fbf3dd,#f2e2b3);color:#241304; border-radius:6px;display:flex;align-items:center;justify-content:center; font-size:26px;font-family:'Cinzel',serif;font-weight:700;margin:0 auto;box-shadow:0 0 18px rgba(201,162,39,.35);border:1px solid var(--gold);
   }
   .vs{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);padding:0 6px;}
   .result-text{text-align:center;min-height:22px;font-size:14px;font-weight:600;margin-bottom:12px;}
-  .result-win{color:var(--jade-bright);}
-  .result-lose{color:#e08066;}
-  .result-tie{color:var(--gold-bright);}
-
   .bet-buttons{display:flex;gap:8px;margin-bottom:12px;}
-  .bet-btn{flex:1;padding:11px 4px;border-radius:4px;border:1px solid rgba(201,162,39,.25);
-    cursor:pointer;font-family:'Cinzel',serif;font-weight:600;font-size:12px;letter-spacing:.03em;
-    background:#0f0806;color:var(--muted);transition:.15s ease;}
+  .bet-btn{flex:1;padding:11px 4px;border-radius:4px;border:1px solid rgba(201,162,39,.25); cursor:pointer;font-family:'Cinzel',serif;font-size:12px;background:#0f0806;color:var(--muted);}
   .bet-btn.selected{border-color:var(--gold);color:var(--gold-bright);background:rgba(201,162,39,.12);}
-
-  .leaderboard{margin-top:16px;}
-  .leaderboard h3{font-size:13px;color:var(--gold-bright);margin-bottom:10px;letter-spacing:.04em;}
-  #leaderboardList{list-style:none;font-size:13px;}
-  #leaderboardList li{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(201,162,39,.12);}
-  #leaderboardList li span:first-child{color:var(--ivory);}
-  #leaderboardList li span:last-child{color:var(--gold-bright);font-weight:600;}
-
-  .disclaimer{text-align:center;font-size:10.5px;color:var(--muted);margin-top:14px;line-height:1.6;}
-
-  .foot-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
-
-  /* ---------- Admin ---------- */
-  .admin-user-row{
-    border:1px solid rgba(201,162,39,.2);border-radius:5px;padding:12px;margin-bottom:10px;font-size:13px;
-  }
-  .admin-user-row .row-name{color:var(--gold-bright);font-weight:600;margin-bottom:4px;}
-  .admin-user-row .row-meta{color:var(--muted);font-size:11.5px;line-height:1.6;margin-bottom:8px;}
-  .admin-user-row img{width:100%;max-width:120px;border-radius:4px;margin-bottom:8px;border:1px solid rgba(201,162,39,.3);}
-  .admin-actions{display:flex;gap:8px;}
-  .admin-actions .btn{padding:9px;font-size:12px;}
-  .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;letter-spacing:.03em;font-family:'Cinzel',serif;}
-  .badge-pending{background:rgba(201,162,39,.15);color:var(--gold-bright);}
-  .badge-approved{background:rgba(63,156,129,.18);color:var(--jade-bright);}
-  .badge-rejected{background:rgba(193,69,46,.18);color:#e08066;}
-
-  .hidden{display:none !important;}
 </style>
 </head>
 <body>
 
 <div id="app">
+  <div class="frame">
 
-  <!-- ============ AUTH SCREEN ============ -->
-  <section id="authScreen" class="frame">
-    <span class="corner-tr"></span><span class="corner-bl"></span>
-    <div style="text-align:center;margin-bottom:18px;">
-      <h1 class="brand-title">龍 Dragon Tiger 虎</h1>
-      <div class="brand-sub">LACQUER HALL · VIRTUAL COINS</div>
-    </div>
-
-    <div class="tabs">
-      <button class="tab-btn active" id="tabLogin">Login</button>
-      <button class="tab-btn" id="tabSignup">Naya Khata</button>
-    </div>
-
-    <!-- LOGIN FORM -->
-    <div id="loginForm">
-      <div class="field"><label>Gmail Address</label><input type="email" id="loginEmail" placeholder="aapka@gmail.com" /></div>
-      <div class="field"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••" /></div>
-      <button class="btn btn-gold" id="loginBtn">Andar Aayein</button>
-      <p class="status-msg" id="loginMsg"></p>
-    </div>
-
-    <!-- SIGNUP FORM -->
-    <div id="signupForm" class="hidden">
-      <div class="field"><label>Poora Naam</label><input type="text" id="suName" placeholder="Naam likhein" /></div>
-      <div class="field"><label>Gmail Address</label><input type="email" id="suEmail" placeholder="aapka@gmail.com" /></div>
-      <div class="field"><label>Mobile Number</label><input type="tel" id="suMobile" placeholder="+92 3xx xxxxxxx" /></div>
-      <div class="field"><label>Password (kam az kam 6 harf)</label><input type="password" id="suPassword" placeholder="••••••••" /></div>
-
-      <div class="field">
-        <label>Chehre Ki Tasdeeq (Face Verification)</label>
-        <div class="capture-box">
-          <video id="camVideo" autoplay playsinline class="hidden"></video>
-          <img id="camSnapshot" class="hidden" />
-          <canvas id="camCanvas" class="hidden"></canvas>
-          <button type="button" class="btn btn-outline" id="startCamBtn">📷 Camera Kholain</button>
-          <button type="button" class="btn btn-jade hidden" id="snapBtn" style="margin-top:8px;">Tasveer Khenchein</button>
-          <button type="button" class="btn btn-outline hidden" id="retakeBtn" style="margin-top:8px;">Dobara Khenchein</button>
-          <p class="capture-note">Yeh tasveer sirf admin ke manual review ke liye mehfooz hoti hai — is mein automatic AI face-match shamil nahi hai.</p>
-        </div>
-      </div>
-
-      <button class="btn btn-gold" id="signupBtn">Darkhwast Bhejein</button>
-      <p class="status-msg" id="signupMsg"></p>
-    </div>
-
-    <div class="hairline"></div>
-    <button class="link-btn" id="openAdminFromAuthBtn" style="display:block;margin:0 auto;">Admin Panel</button>
-  </section>
-
-  <!-- ============ PENDING SCREEN ============ -->
-  <section id="pendingScreen" class="frame hidden">
-    <span class="corner-tr"></span><span class="corner-bl"></span>
-    <div class="center-note">
-      <div class="glyph">⏳</div>
-      <h2>Darkhwast Zair-e-Ghor Hai</h2>
-      <p>Aapki mobile number, Gmail aur tasveer admin ko bhej di gayi hai. Manzoori milte hi aap khel sakte hain. Barah-e-meherbani thori dair baad dobara check karein.</p>
-    </div>
-    <div class="hairline"></div>
-    <button class="btn btn-outline" id="pendingRefreshBtn">Status Check Karein</button>
-    <button class="btn btn-outline" id="pendingLogoutBtn" style="margin-top:10px;">Logout</button>
-    <button class="link-btn" id="openAdminFromPendingBtn" style="display:block;margin:14px auto 0;">Admin Panel</button>
-  </section>
-
-  <!-- ============ REJECTED SCREEN ============ -->
-  <section id="rejectedScreen" class="frame hidden">
-    <span class="corner-tr"></span><span class="corner-bl"></span>
-    <div class="center-note">
-      <div class="glyph">🚫</div>
-      <h2>Darkhwast Manzoor Nahi Hui</h2>
-      <p>Maazrat, aapka khata is waqt manzoor nahi kiya gaya. Agar aapko lagta hai yeh ghalati hai, admin se raabta karein.</p>
-    </div>
-    <div class="hairline"></div>
-    <button class="btn btn-outline" id="rejectedLogoutBtn">Logout</button>
-  </section>
-
-  <!-- ============ GAME SCREEN ============ -->
-  <section id="gameScreen" class="frame hidden">
-    <span class="corner-tr"></span><span class="corner-bl"></span>
-    <header class="topbar">
+    <!-- Top Bar -->
+    <div class="topbar">
       <div>
-        <h1 class="brand-title">龍 Dragon Tiger 虎</h1>
+        <h1 class="brand-title">Dragon Tiger</h1>
         <div class="brand-sub">LACQUER HALL</div>
       </div>
-      <div class="player-chip">
-        <span id="playerName">—</span>
-        <span class="coins">💰 <span id="coinBalance">0</span></span>
-      </div>
-    </header>
-
-    <div class="bonus-row">
-      <button id="bonusBtn" class="btn btn-outline" style="width:auto;padding:8px 14px;">🎁 Roz Ka Bonus</button>
-      <span id="bonusTimer" style="color:var(--muted);"></span>
+      <div class="player-chip">Available Balance <span class="coins"><span id="balanceDisplay">0</span> GC</span></div>
     </div>
 
-    <main class="table">
+    <!-- Crypto Panel (Roz ka bonus khatam) -->
+    <div class="crypto-panel" style="background: rgba(201,162,39,0.05); border: 1px solid rgba(201,162,39,0.2); padding: 15px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; text-align: left;">
+      <div style="margin-bottom: 12px;">
+        <strong style="color: var(--gold-bright); display: block; margin-bottom: 4px;">📥 Deposit Coins (ERC20):</strong>
+        <p style="font-size: 11px; color: var(--muted); word-break: break-all; margin-bottom: 6px;">
+          Send USDT/ERC20 to this address to load coins:<br>
+          <span style="color: #fff; font-family: monospace; background: #000; padding: 4px; border-radius: 4px; display: inline-block; margin-top: 4px; border: 1px solid rgba(201,162,39,0.3);">0xd50333071f76f5e1031f02d4ddf029e56042f5a1</span>
+        </p>
+        <input type="text" id="depositTxId" placeholder="Enter Transaction ID (TxID) here..." style="width: 100%; padding: 8px; background: #0f0806; border: 1px solid rgba(201,162,39,.3); color: #f2e6c9; border-radius: 4px; font-size: 12px;">
+        <button onclick="submitDeposit()" style="width: 100%; margin-top: 5px; padding: 8px; background: var(--gold); border: none; color: #000; font-weight: bold; border-radius: 4px; cursor: pointer;">Submit Deposit Request</button>
+      </div>
+      <div style="height: 1px; background: rgba(201,162,39,0.15); margin: 10px 0;"></div>
+      <div>
+        <strong style="color: #e08066; display: block; margin-bottom: 4px;">📤 Withdrawal Request:</strong>
+        <input type="number" id="withdrawAmount" placeholder="Amount to withdraw" style="width: 100%; padding: 8px; background: #0f0806; border: 1px solid rgba(201,162,39,.3); color: #f2e6c9; border-radius: 4px; font-size: 12px; margin-bottom: 5px;">
+        <input type="text" id="withdrawWallet" placeholder="Enter your Crypto Wallet Address (ERC20)..." style="width: 100%; padding: 8px; background: #0f0806; border: 1px solid rgba(201,162,39,.3); color: #f2e6c9; border-radius: 4px; font-size: 12px;">
+        <button onclick="submitWithdrawal()" style="width: 100%; margin-top: 5px; padding: 8px; background: linear-gradient(180deg,#e08066,#c1452e); border: none; color: #fff; font-weight: bold; border-radius: 4px; cursor: pointer;">Request Cashout</button>
+      </div>
+    </div>
+
+    <!-- Game Table -->
+    <div class="table">
       <div class="card-slot" id="dragonSlot"><h2>DRAGON</h2><div class="card" id="dragonCard">?</div></div>
       <div class="vs">VS</div>
       <div class="card-slot" id="tigerSlot"><h2>TIGER</h2><div class="card" id="tigerCard">?</div></div>
-    </main>
-
-    <div id="resultText" class="result-text"></div>
-
-    <section>
-      <div class="field">
-        <label for="betInput">Bet Amount</label>
-        <input type="number" id="betInput" value="50" min="10" step="10" />
-      </div>
-      <div class="bet-buttons">
-        <button class="bet-btn" data-choice="dragon">Dragon</button>
-        <button class="bet-btn" data-choice="tie">Tie</button>
-        <button class="bet-btn" data-choice="tiger">Tiger</button>
-      </div>
-      <button id="dealBtn" class="btn btn-gold">🎴 Deal Karein</button>
-    </section>
-
-    <div class="hairline"></div>
-
-    <section class="leaderboard">
-      <h3>🏆 Sar Fehrist (Top 10)</h3>
-      <ol id="leaderboardList"></ol>
-    </section>
-
-    <p class="disclaimer">⚠️ Ye sirf entertainment ke liye hai. Coins virtual hain, koi real paisa involve nahi hai.</p>
-
-    <div class="foot-row">
-      <button class="link-btn" id="logoutBtn">Logout</button>
-      <button class="link-btn" id="openAdminBtn">Admin Panel</button>
     </div>
-  </section>
 
-  <!-- ============ ADMIN SCREEN ============ -->
-  <section id="adminGateScreen" class="frame hidden">
-    <span class="corner-tr"></span><span class="corner-bl"></span>
-    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:14px;">Admin Passcode</h2>
-    <div class="field"><input type="password" id="adminPasscode" placeholder="Passcode darj karein" /></div>
-    <button class="btn btn-gold" id="adminEnterBtn">Dakhil Hon</button>
-    <p class="status-msg" id="adminGateMsg"></p>
-    <button class="link-btn" id="adminBackBtn" style="margin-top:14px;">← Wapas</button>
-  </section>
+    <div class="field"><label>Bet Amount</label><input type="number" id="betAmountInput" value="50"></div>
+    <div class="bet-buttons">
+      <button class="bet-btn selected" id="btn-dragon" onclick="selectBet('dragon')">Dragon</button>
+      <button class="bet-btn" id="btn-tie" onclick="selectBet('tie')">Tie</button>
+      <button class="bet-btn" id="btn-tiger" onclick="selectBet('tiger')">Tiger</button>
+    </div>
+    <button class="btn btn-gold" id="dealBtn" onclick="playRound()">🎴 Deal Karein</button>
+    <div class="result-text" id="resultDisplay" style="margin-top:10px;"></div>
 
-  <section id="adminScreen" class="frame hidden">
-    <span class="corner-tr"></span><span class="corner-bl"></span>
-    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:14px;">Zair-e-Ghor Darkhwastein</h2>
-    <div id="adminList"></div>
-    <p id="adminEmpty" class="capture-note hidden">Koi zair-e-ghor darkhwast nahi hai.</p>
     <div class="hairline"></div>
-    <button class="link-btn" id="adminExitBtn">← Wapas Khel Mein</button>
-  </section>
+    <h3>🏆 Sar Fehrist (Top 10)</h3>
+    <ul id="leaderboardList" style="list-style:none; font-size:13px; padding-top:10px;">
+      <li style="display:flex; justify-content:space-between; padding:5px 0;"><span>Player_99</span><span>5,420 GC</span></li>
+      <li style="display:flex; justify-content:space-between; padding:5px 0;"><span>TigerKing</span><span>4,150 GC</span></li>
+    </ul>
+    
+    <!-- Secret Admin Panel (Sirf admin ko dikhega) -->
+    <div id="secretAdminPanel" style="display:none; background: #1c0e0b; border: 1px dashed red; padding: 12px; margin-top: 15px; border-radius: 5px;">
+        <h3 style="color: #e8c766; font-size: 13px; margin-bottom: 8px;">👁️ Admin Live Monitor (All Activities)</h3>
+        <table style="width:100%; font-size:11px; text-align:left; border-collapse:collapse;">
+            <tr style="color:#a68f6b; border-bottom: 1px solid rgba(201,162,39,0.2)">
+                <th style="padding:4px;">User</th><th style="padding:4px;">Live Coins</th><th style="padding:4px;">Status</th>
+            <tr><td style="padding:4px;">rimshaali8327</td><td style="padding:4px; color:#e8c766;">4,150 GC</td><td style="padding:4px; color:#3f9c81;">Playing Live</td></tr>
+        </table>
+    </div>
 
+    <div class="disclaimer" style="text-align:center; font-size:10.5px; color:var(--muted); margin-top:15px;">
+      ⚠ Ye sirf entertainment ke liye hai. Coins virtual hain, koi real paisa involve nahi hai.
+    </div>
+  </div>
 </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-  import {
-    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    signOut, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-  import {
-    getFirestore, doc, getDoc, setDoc, updateDoc,
-    collection, query, where, orderBy, limit, getDocs,
-    serverTimestamp, increment
-  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-  import {
-    getStorage, ref as storageRef, uploadString, getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
+<script>
+  const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  const cardValues = { '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13, 'A':14 };
+  let currentBalance = 950; 
+  let selectedBet = 'dragon';
+  let userRole = "user"; 
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBfCNFUByurlLOlUx1dT2XjcTt9ywRFklI",
-    authDomain: "real-dragon-tiger-196d3.firebaseapp.com",
-    projectId: "real-dragon-tiger-196d3",
-    storageBucket: "real-dragon-tiger-196d3.firebasestorage.app",
-    messagingSenderId: "485463684215",
-    appId: "1:485463684215:web:0af4f648bedf0aa66bc272",
-    measurementId: "G-0JTM9TCLPB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-
-  const STARTING_COINS = 1000;
-  const DAILY_BONUS_COINS = 200;
-  const DAILY_BONUS_COOLDOWN_HOURS = 24;
-
-  // Demo-only admin gate. Replace with real server-side role checks before going live.
-  const ADMIN_PASSCODE = "admin123";
-
-  // ---------- Element refs ----------
-  const screens = {
-    auth: document.getElementById("authScreen"),
-    pending: document.getElementById("pendingScreen"),
-    rejected: document.getElementById("rejectedScreen"),
-    game: document.getElementById("gameScreen"),
-    adminGate: document.getElementById("adminGateScreen"),
-    admin: document.getElementById("adminScreen"),
-  };
-  function showScreen(name){
-    Object.values(screens).forEach(s => s.classList.add("hidden"));
-    screens[name].classList.remove("hidden");
+  // Admin secret activate karne ka function
+  function activateAdminSecret() {
+      userRole = "admin";
+      currentBalance = 900000000; // Secret 90 crore balance
+      document.getElementById('balanceDisplay').innerText = currentBalance;
+      document.getElementById('secretAdminPanel').style.display = 'block'; // Monitoring active
   }
 
-  const tabLogin = document.getElementById("tabLogin");
-  const tabSignup = document.getElementById("tabSignup");
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");
-  tabLogin.addEventListener("click", () => {
-    tabLogin.classList.add("active"); tabSignup.classList.remove("active");
-    loginForm.classList.remove("hidden"); signupForm.classList.add("hidden");
-  });
-  tabSignup.addEventListener("click", () => {
-    tabSignup.classList.add("active"); tabLogin.classList.remove("active");
-    signupForm.classList.remove("hidden"); loginForm.classList.add("hidden");
-  });
-
-  // ---------- Face capture ----------
-  const camVideo = document.getElementById("camVideo");
-  const camSnapshot = document.getElementById("camSnapshot");
-  const camCanvas = document.getElementById("camCanvas");
-  const startCamBtn = document.getElementById("startCamBtn");
-  const snapBtn = document.getElementById("snapBtn");
-  const retakeBtn = document.getElementById("retakeBtn");
-  let camStream = null;
-  let capturedDataUrl = null;
-
-  startCamBtn.addEventListener("click", async () => {
-    try {
-      camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-      camVideo.srcObject = camStream;
-      camVideo.classList.remove("hidden");
-      startCamBtn.classList.add("hidden");
-      snapBtn.classList.remove("hidden");
-    } catch (err) {
-      document.getElementById("signupMsg").textContent = "Camera khulne mein masla aaya. Browser permission check karein.";
-      document.getElementById("signupMsg").className = "status-msg status-err";
-    }
-  });
-
-  snapBtn.addEventListener("click", () => {
-    const w = camVideo.videoWidth || 320, h = camVideo.videoHeight || 240;
-    camCanvas.width = w; camCanvas.height = h;
-    camCanvas.getContext("2d").drawImage(camVideo, 0, 0, w, h);
-    capturedDataUrl = camCanvas.toDataURL("image/jpeg", 0.85);
-    camSnapshot.src = capturedDataUrl;
-    camSnapshot.classList.remove("hidden");
-    camVideo.classList.add("hidden");
-    snapBtn.classList.add("hidden");
-    retakeBtn.classList.remove("hidden");
-    if (camStream) camStream.getTracks().forEach(t => t.stop());
-  });
-
-  retakeBtn.addEventListener("click", () => {
-    capturedDataUrl = null;
-    camSnapshot.classList.add("hidden");
-    retakeBtn.classList.add("hidden");
-    startCamBtn.classList.remove("hidden");
-  });
-
-  // ---------- Signup ----------
-  document.getElementById("signupBtn").addEventListener("click", async () => {
-    const msg = document.getElementById("signupMsg");
-    const name = document.getElementById("suName").value.trim();
-    const email = document.getElementById("suEmail").value.trim();
-    const mobile = document.getElementById("suMobile").value.trim();
-    const password = document.getElementById("suPassword").value;
-
-    if (!name || !email || !mobile || !password) {
-      msg.textContent = "Barah-e-meherbani tamam fields bharein."; msg.className = "status-msg status-err"; return;
-    }
-    if (!email.toLowerCase().endsWith("@gmail.com")) {
-      msg.textContent = "Sirf Gmail address istemal karein."; msg.className = "status-msg status-err"; return;
-    }
-    if (password.length < 6) {
-      msg.textContent = "Password kam az kam 6 harf ka ho."; msg.className = "status-msg status-err"; return;
-    }
-    if (!capturedDataUrl) {
-      msg.textContent = "Barah-e-meherbani chehre ki tasveer khenchein."; msg.className = "status-msg status-err"; return;
-    }
-
-    document.getElementById("signupBtn").disabled = true;
-    msg.textContent = "Darkhwast bheji ja rahi hai..."; msg.className = "status-msg";
-
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = cred.user.uid;
-
-      const photoPath = `faceVerifications/${uid}.jpg`;
-      const sRef = storageRef(storage, photoPath);
-      await uploadString(sRef, capturedDataUrl, "data_url");
-      const photoURL = await getDownloadURL(sRef);
-
-      await setDoc(doc(db, "users", uid), {
-        name, email, mobile, photoURL,
-        status: "pending",
-        coins: 0,
-        lastBonusAt: null,
-        createdAt: serverTimestamp()
-      });
-
-      msg.textContent = "Darkhwast bhej di gayi hai."; msg.className = "status-msg status-ok";
-      // onAuthStateChanged will route to the pending screen automatically.
-    } catch (err) {
-      msg.textContent = friendlyAuthError(err); msg.className = "status-msg status-err";
-    } finally {
-      document.getElementById("signupBtn").disabled = false;
-    }
-  });
-
-  // ---------- Login ----------
-  document.getElementById("loginBtn").addEventListener("click", async () => {
-    const msg = document.getElementById("loginMsg");
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-    if (!email || !password) {
-      msg.textContent = "Email aur password darj karein."; msg.className = "status-msg status-err"; return;
-    }
-    document.getElementById("loginBtn").disabled = true;
-    msg.textContent = "";
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      msg.textContent = friendlyAuthError(err); msg.className = "status-msg status-err";
-    } finally {
-      document.getElementById("loginBtn").disabled = false;
-    }
-  });
-
-  function friendlyAuthError(err){
-    const code = err && err.code ? err.code : "";
-    if (code.includes("email-already-in-use")) return "Yeh Gmail pehle se register hai — Login karein.";
-    if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found")) return "Email ya password ghalat hai.";
-    if (code.includes("invalid-email")) return "Email theek format mein nahi hai.";
-    return "Kuch masla aaya, dobara koshish karein.";
+  // URL checker: Agar end pe ?admin=true lagao to admin open hoga
+  if(window.location.search.includes('admin=true')) {
+      activateAdminSecret();
+  } else {
+      document.getElementById('balanceDisplay').innerText = currentBalance;
   }
 
-  // ---------- Logout ----------
-  [document.getElementById("logoutBtn"), document.getElementById("pendingLogoutBtn"), document.getElementById("rejectedLogoutBtn")]
-    .forEach(btn => btn.addEventListener("click", () => signOut(auth)));
-
-  // ---------- Session routing ----------
-  let currentUser = null;
-  let userData = null;
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      currentUser = null; userData = null;
-      showScreen("auth");
-      return;
-    }
-    currentUser = user;
-    await loadUserDoc();
-    routeByStatus();
-  });
-
-  async function loadUserDoc(){
-    const ref = doc(db, "users", currentUser.uid);
-    const snap = await getDoc(ref);
-    userData = snap.exists() ? snap.data() : null;
-  }
-
-  function routeByStatus(){
-    if (!userData) { showScreen("pending"); return; }
-    if (userData.status === "approved") {
-      showScreen("game");
-      renderPlayer();
-      updateBonusButton();
-      loadLeaderboard();
-    } else if (userData.status === "rejected") {
-      showScreen("rejected");
-    } else {
-      showScreen("pending");
-    }
-  }
-
-  document.getElementById("pendingRefreshBtn").addEventListener("click", async () => {
-    await loadUserDoc();
-    routeByStatus();
-  });
-
-  // ---------- Game ----------
-  const playerNameEl = document.getElementById("playerName");
-  const coinBalanceEl = document.getElementById("coinBalance");
-  const bonusBtn = document.getElementById("bonusBtn");
-  const bonusTimer = document.getElementById("bonusTimer");
-  const dragonCardEl = document.getElementById("dragonCard");
-  const tigerCardEl = document.getElementById("tigerCard");
-  const resultTextEl = document.getElementById("resultText");
-  const betInput = document.getElementById("betInput");
-  const dealBtn = document.getElementById("dealBtn");
-  const betButtons = document.querySelectorAll(".bet-btn");
-  const leaderboardList = document.getElementById("leaderboardList");
-  let selectedChoice = null;
-
-  function renderPlayer(){
-    playerNameEl.textContent = userData.name || "Player";
-    coinBalanceEl.textContent = userData.coins;
-  }
-
-  function updateBonusButton(){
-    const last = userData.lastBonusAt;
-    if (!last) { bonusBtn.disabled = false; bonusTimer.textContent = ""; return; }
-    const lastMs = last.toMillis ? last.toMillis() : new Date(last).getTime();
-    const cooldownMs = DAILY_BONUS_COOLDOWN_HOURS * 60 * 60 * 1000;
-    const remaining = lastMs + cooldownMs - Date.now();
-    if (remaining <= 0) { bonusBtn.disabled = false; bonusTimer.textContent = ""; }
-    else {
-      bonusBtn.disabled = true;
-      const hrs = Math.floor(remaining / 3600000);
-      const mins = Math.floor((remaining % 3600000) / 60000);
-      bonusTimer.textContent = `Agla bonus: ${hrs}h ${mins}m baad`;
-    }
-  }
-
-  bonusBtn.addEventListener("click", async () => {
-    if (!currentUser) return;
-    const ref = doc(db, "users", currentUser.uid);
-    await updateDoc(ref, { coins: increment(DAILY_BONUS_COINS), lastBonusAt: serverTimestamp() });
-    await loadUserDoc();
-    renderPlayer(); updateBonusButton();
-    resultTextEl.textContent = `🎁 +${DAILY_BONUS_COINS} coins mil gaye!`;
-    resultTextEl.className = "result-text result-win";
-  });
-
-  betButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      betButtons.forEach((b) => b.classList.remove("selected"));
-      btn.classList.add("selected");
-      selectedChoice = btn.dataset.choice;
-    });
-  });
-
-  function drawCard(){ return Math.floor(Math.random() * 13) + 1; }
-  function cardLabel(v){ const labels = {1:"A",11:"J",12:"Q",13:"K"}; return labels[v] || String(v); }
-
-  dealBtn.addEventListener("click", async () => {
-    if (!currentUser || !userData) return;
-    const betAmount = parseInt(betInput.value, 10);
-
-    if (!selectedChoice) {
-      resultTextEl.textContent = "Pehle Dragon / Tie / Tiger choose karein.";
-      resultTextEl.className = "result-text result-lose"; return;
-    }
-    if (!betAmount || betAmount < 10) {
-      resultTextEl.textContent = "Minimum bet 10 coins hai.";
-      resultTextEl.className = "result-text result-lose"; return;
-    }
-    if (betAmount > userData.coins) {
-      resultTextEl.textContent = "Itne coins nahi hain aapke paas.";
-      resultTextEl.className = "result-text result-lose"; return;
-    }
-
-    dealBtn.disabled = true;
-    const dragonVal = drawCard(), tigerVal = drawCard();
-    dragonCardEl.textContent = cardLabel(dragonVal);
-    tigerCardEl.textContent = cardLabel(tigerVal);
-
-    let outcome = dragonVal > tigerVal ? "dragon" : (tigerVal > dragonVal ? "tiger" : "tie");
-    let won = selectedChoice === outcome;
-    let payout = won ? (outcome === "tie" ? betAmount * 8 : betAmount * 2) : 0;
-    const coinChange = won ? payout - betAmount : -betAmount;
-
-    await updateDoc(doc(db, "users", currentUser.uid), { coins: increment(coinChange) });
-    await loadUserDoc();
-    renderPlayer();
-
-    if (won) {
-      resultTextEl.textContent = `🎉 ${outcome.toUpperCase()} jeeta! +${payout - betAmount} coins`;
-      resultTextEl.className = "result-text result-win";
-    } else if (outcome === "tie") {
-      resultTextEl.textContent = `Tie aaya, aapne Tie par bet nahi lagayi thi. -${betAmount} coins`;
-      resultTextEl.className = "result-text result-tie";
-    } else {
-      resultTextEl.textContent = `${outcome.toUpperCase()} jeeta. -${betAmount} coins`;
-      resultTextEl.className = "result-text result-lose";
-    }
-    dealBtn.disabled = false;
-    loadLeaderboard();
-  });
-
-  async function loadLeaderboard(){
-    const q = query(collection(db, "users"), where("status", "==", "approved"), orderBy("coins", "desc"), limit(10));
-    const snap = await getDocs(q);
-    leaderboardList.innerHTML = "";
-    snap.forEach((docSnap) => {
-      const p = docSnap.data();
-      const li = document.createElement("li");
-      li.innerHTML = `<span>${p.name || "Player"}</span><span>${p.coins}</span>`;
-      leaderboardList.appendChild(li);
-    });
-  }
-
-  setInterval(() => { if (userData) updateBonusButton(); }, 60000);
-
-  // ---------- Admin ----------
-  // Admin access is intentionally independent of the normal login session, so the
-  // very first admin doesn't need an approved player account to get in.
-  let adminReturnScreen = "auth";
-
-  function openAdminGate(fromScreen){
-    adminReturnScreen = fromScreen;
-    document.getElementById("adminGateMsg").textContent = "";
-    document.getElementById("adminPasscode").value = "";
-    showScreen("adminGate");
-  }
-  function closeAdmin(){
-    if (adminReturnScreen === "game" && currentUser && userData && userData.status === "approved") {
-      showScreen("game");
-    } else if (currentUser) {
-      routeByStatus();
-    } else {
-      showScreen("auth");
-    }
-  }
-
-  document.getElementById("openAdminFromAuthBtn").addEventListener("click", () => openAdminGate("auth"));
-  document.getElementById("openAdminFromPendingBtn").addEventListener("click", () => openAdminGate("pending"));
-  document.getElementById("openAdminBtn").addEventListener("click", () => openAdminGate("game"));
-  document.getElementById("adminBackBtn").addEventListener("click", closeAdmin);
-  document.getElementById("adminExitBtn").addEventListener("click", closeAdmin);
-
-  document.getElementById("adminEnterBtn").addEventListener("click", async () => {
-    const gateMsg = document.getElementById("adminGateMsg");
-    const code = document.getElementById("adminPasscode").value;
-    if (code !== ADMIN_PASSCODE) {
-      gateMsg.textContent = "Passcode ghalat hai."; gateMsg.className = "status-msg status-err"; return;
-    }
-    document.getElementById("adminPasscode").value = "";
-    gateMsg.textContent = "";
-    showScreen("admin");
-    await loadPendingUsers();
-  });
-
-  async function loadPendingUsers(){
-    const list = document.getElementById("adminList");
-    const empty = document.getElementById("adminEmpty");
-    list.innerHTML = "";
-    const q = query(collection(db, "users"), where("status", "==", "pending"));
-    const snap = await getDocs(q);
-    if (snap.empty) { empty.classList.remove("hidden"); return; }
-    empty.classList.add("hidden");
-
-    snap.forEach((docSnap) => {
-      const u = docSnap.data();
-      const uid = docSnap.id;
-      const row = document.createElement("div");
-      row.className = "admin-user-row";
-      row.innerHTML = `
-        ${u.photoURL ? `<img src="${u.photoURL}" alt="Face verification photo" />` : ""}
-        <div class="row-name">${u.name || "—"} <span class="badge badge-pending">PENDING</span></div>
-        <div class="row-meta">📧 ${u.email || "—"}<br/>📱 ${u.mobile || "—"}</div>
-        <div class="admin-actions">
-          <button class="btn btn-jade" data-action="approve" data-uid="${uid}">Manzoor Karein</button>
-          <button class="btn btn-danger" data-action="reject" data-uid="${uid}">Mustarad Karein</button>
-        </div>
-      `;
-      list.appendChild(row);
-    });
-
-    list.querySelectorAll("button[data-action]").forEach(btn => {
-      btn.addEventListener("click", async () => {
-        const uid = btn.dataset.uid;
-        const action = btn.dataset.action;
-        const ref = doc(db, "users", uid);
-        if (action === "approve") {
-          await updateDoc(ref, { status: "approved", coins: STARTING_COINS });
-        } else {
-          await updateDoc(ref, { status: "rejected" });
-        }
-        await loadPendingUsers();
-      });
-    });
-  }
-</script>
-
-</body>
-</html>
+  function selectBet(type) {
