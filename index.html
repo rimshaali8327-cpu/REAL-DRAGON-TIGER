@@ -64,7 +64,6 @@
   .player-chip{text-align:right;font-size:12px;color:var(--muted);}
   .player-chip .coins{color:var(--gold-bright);font-weight:700;font-size:15px;display:block;margin-top:2px;}
   
-  /* خالی ڈبے کا حل - کسٹم کوائن ڈیزائن */
   .coin-icon::after {
     content: " GC";
     font-size: 11px;
@@ -95,7 +94,6 @@
   #dragonSlot h2{color:#9fc7ff;}
   #tigerSlot h2{color:#ffb56b;}
   
-  /* کارڈز اور فلپ اینیمیشن */
   .card{
     width:64px;height:92px;background:linear-gradient(180deg,#fbf3dd,#f2e2b3);color:#241304;
     border-radius:6px;display:flex;align-items:center;justify-content:center;
@@ -104,7 +102,7 @@
     transition: transform 0.3s ease;
   }
   .card.flip {
-    transform: scale(1.1) rotateY(360deg);
+    transform: scale(1.1) rotateY(180deg);
   }
   
   .vs{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);padding:0 6px;}
@@ -167,9 +165,9 @@
     <div class="result-text" id="resultDisplay">Place your bet and click Play!</div>
     
     <div class="bet-buttons">
-      <button class="bet-btn selected" onclick="selectBet('dragon')">Dragon (1:1)</button>
-      <button class="bet-btn" onclick="selectBet('tie')">Tie (11:1)</button>
-      <button class="bet-btn" onclick="selectBet('tiger')">Tiger (1:1)</button>
+      <button class="bet-btn selected" id="btn-dragon" onclick="selectBet('dragon')">Dragon (1:1)</button>
+      <button class="bet-btn" id="btn-tie" onclick="selectBet('tie')">Tie (11:1)</button>
+      <button class="bet-btn" id="btn-tiger" onclick="selectBet('tiger')">Tiger (1:1)</button>
     </div>
 
     <button class="btn btn-gold" id="playBtn" onclick="playRound()">Place Bet (100 GC)</button>
@@ -193,7 +191,6 @@
 </div>
 
 <script>
-  // کارڈز کی لسٹ اور ان کی ویلیوز
   const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
   const cardValues = { '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13, 'A':14 };
   
@@ -203,13 +200,14 @@
 
   function selectBet(type) {
     selectedBet = type;
-    // بٹنز کی ہائی لائٹ تبدیل کرنا
-    const buttons = document.querySelectorAll('.bet-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
     
-    if(type === 'dragon') buttons[0].classList.add('selected');
-    if(type === 'tie') buttons[1].classList.add('selected');
-    if(type === 'tiger') buttons[2].classList.add('selected');
+    // تمام بٹنز سے سلیکٹڈ کلاس ہٹائیں
+    document.getElementById('btn-dragon').classList.remove('selected');
+    document.getElementById('btn-tie').classList.remove('selected');
+    document.getElementById('btn-tiger').classList.remove('selected');
+    
+    // صرف کلک کیے گئے بٹن پر کلاس لگائیں
+    document.getElementById('btn-' + type).classList.add('selected');
   }
 
   function playRound() {
@@ -218,11 +216,9 @@
       return;
     }
 
-    // بٹن کو عارضی طور پر ڈس ایبل کرنا
     const playBtn = document.getElementById('playBtn');
     playBtn.disabled = true;
 
-    // کارڈز پر اینیمیشن لگانا
     const dCard = document.getElementById('dragonCard');
     const tCard = document.getElementById('tigerCard');
     dCard.classList.add('flip');
@@ -231,25 +227,21 @@
     document.getElementById('resultDisplay').innerText = "Shuffling cards...";
 
     setTimeout(() => {
-      // رینڈم کارڈز نکالنا
       const dragonResult = cards[Math.floor(Math.random() * cards.length)];
       const tigerResult = cards[Math.floor(Math.random() * cards.length)];
 
-      // سکرین پر کارڈز دکھانا
       dCard.innerText = dragonResult;
       tCard.innerText = tigerResult;
 
-      // اینیمیشن ختم کرنا
       dCard.classList.remove('flip');
       tCard.classList.remove('flip');
 
-      // جیتنے والے کا فیصلہ
       const dVal = cardValues[dragonResult];
       const tVal = cardValues[tigerResult];
       let roundResult = '';
       const resultDisplay = document.getElementById('resultDisplay');
 
-      resultDisplay.className = 'result-text'; // ری سیٹ کلاسز
+      resultDisplay.className = 'result-text'; 
 
       if (dVal > tVal) {
         roundResult = 'dragon';
@@ -262,3 +254,13 @@
       } else {
         roundResult = 'tie';
         resultDisplay.innerText = "It's a Tie! (" + dragonResult + " vs " + tigerResult + ")";
+        resultDisplay.classList.add('result-tie');
+      }
+
+      if (selectedBet === roundResult) {
+        if (selectedBet === 'tie') {
+          currentBalance += betAmount * 11; 
+        } else {
+          currentBalance += betAmount; 
+        }
+      } else {
