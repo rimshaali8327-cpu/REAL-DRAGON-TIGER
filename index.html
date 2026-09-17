@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ur">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,183 +9,76 @@
 <link href="https://googleapis.com" rel="stylesheet">
 <style>
   :root{
-    --black:#0b0705;
-    --panel:#150b09;
-    --lacquer:#6e0f1a;
-    --deep-red:#3d0810;
-    --gold:#c9a227;
-    --gold-bright:#e8c766;
-    --ivory:#f2e6c9;
-    --muted:#a68f6b;
-    --jade:#2f6f5e;
-    --jade-bright:#3f9c81;
-    --danger:#c1452e;
+    --black:#0b0705; --panel:#150b09; --lacquer:#6e0f1a; --gold:#c9a227; --gold-bright:#e8c766; --ivory:#f2e6c9; --muted:#a68f6b; --jade-bright:#3f9c81; --danger:#c1452e;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    font-family:'Noto Sans',sans-serif;
-    background:
-      radial-gradient(circle at 20% 0%, rgba(110,15,26,0.35), transparent 45%),
-      radial-gradient(circle at 80% 100%, rgba(201,162,39,0.10), transparent 50%),
-      var(--black);
-    color:var(--ivory);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    padding:28px 14px;
+    font-family:'Noto Sans',sans-serif; background:var(--black); color:var(--ivory); min-height:100vh; display:flex; justify-content:center; padding:28px 14px;
   }
   #app{width:100%;max-width:460px;}
-
-  h1,h2,h3{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.02em;}
-
   .frame{
-    position:relative;
-    background:linear-gradient(180deg,var(--panel),#0e0705);
-    border:1px solid rgba(201,162,39,0.35);
-    border-radius:6px;
-    padding:26px 22px;
+    position:relative; background:linear-gradient(180deg,var(--panel),#0e0705); border:1px solid rgba(201,162,39,0.35); border-radius:6px; padding:26px 22px;
   }
-  .frame::before,.frame::after{
-    content:"";position:absolute;width:16px;height:16px;
-    border:1.5px solid var(--gold);opacity:.75;
-  }
-  .frame::before{top:6px;left:6px;border-right:none;border-bottom:none;}
-  .frame::after{bottom:6px;right:6px;border-left:none;border-top:none;}
-  .frame .corner-tr,.frame .corner-bl{position:absolute;width:16px;height:16px;border:1.5px solid var(--gold);opacity:.75;}
-  .frame .corner-tr{top:6px;right:6px;border-left:none;border-bottom:none;}
-  .frame .corner-bl{bottom:6px;left:6px;border-right:none;border-top:none;}
-
   .hairline{height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.5),transparent);margin:18px 0;}
-
-  /* ---------- Top bar ---------- */
   .topbar{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;}
-  .brand-title{font-size:23px;color:var(--gold-bright);}
+  .brand-title{font-size:23px;color:var(--gold-bright);font-family:'Cinzel',serif;}
   .brand-sub{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:2px;}
   .player-chip{text-align:right;font-size:12px;color:var(--muted);}
-  .player-chip .coins{color:var(--gold-bright);font-weight:700;font-size:15px;display:block;margin-top:2px;}
-  
-  .coin-icon::after {
-    content: " GC";
-    font-size: 11px;
-    color: var(--gold);
-    font-weight: bold;
-    letter-spacing: 1px;
-  }
-
-  /* ---------- Buttons / inputs ---------- */
-  .btn{
-    width:100%;padding:13px;border-radius:4px;border:1px solid transparent;
-    font-family:'Cinzel',serif;font-weight:600;font-size:14px;letter-spacing:.03em;
-    cursor:pointer;transition:all 0.15s ease;
-  }
-  .btn:hover{filter:brightness(1.08);}
-  .btn:disabled{opacity:.45;cursor:not-allowed;filter:none;}
-  .btn-gold{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;}
-
-  /* ---------- Game table ---------- */
+  .player-chip .coins{color:var(--gold-bright);font-weight:700;font-size:15px;display:block;}
   .table{
-    display:flex;justify-content:space-between;align-items:center;
-    background:linear-gradient(180deg,#1a0a0b,#0e0505);
-    border:1px solid var(--lacquer);border-radius:6px;padding:26px 10px;margin-bottom:14px;
-    position:relative;
+    display:flex;justify-content:space-between;align-items:center; background:linear-gradient(180deg,#1a0a0b,#0e0505); border:1px solid var(--lacquer); border-radius:6px; padding:26px 10px; margin-bottom:14px;
   }
   .card-slot{text-align:center;flex:1;}
-  .card-slot h2{font-size:12px;letter-spacing:.18em;margin-bottom:10px;color:var(--muted);}
-  #dragonSlot h2{color:#9fc7ff;}
-  #tigerSlot h2{color:#ffb56b;}
-  
+  .card-slot h2{font-size:12px;letter-spacing:.18em;margin-bottom:10px;color:var(--muted);font-family:'Cinzel',serif;}
+  #dragonSlot h2{color:#9fc7ff;} #tigerSlot h2{color:#ffb56b;}
   .card{
-    width:64px;height:92px;background:linear-gradient(180deg,#fbf3dd,#f2e2b3);color:#241304;
-    border-radius:6px;display:flex;align-items:center;justify-content:center;
-    font-size:26px;font-family:'Cinzel',serif;font-weight:700;margin:0 auto;
-    box-shadow:0 0 18px rgba(201,162,39,.35);border:1px solid var(--gold);
-    transition: transform 0.3s ease;
+    width:64px;height:92px;background:linear-gradient(180deg,#fbf3dd,#f2e2b3);color:#241304; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:26px; font-family:'Cinzel',serif; font-weight:700; margin:0 auto; box-shadow:0 0 18px rgba(201,162,39,.35); border:1px solid var(--gold); transition:all 0.3s;
   }
-  .card.flip {
-    transform: scale(1.1) rotateY(180deg);
-  }
-  
   .vs{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);padding:0 6px;}
   .result-text{text-align:center;min-height:22px;font-size:14px;font-weight:600;margin-bottom:12px;}
-  .result-win{color:var(--jade-bright);}
-  .result-lose{color:#e08066;}
-  .result-tie{color:var(--gold-bright);}
-
   .bet-buttons{display:flex;gap:8px;margin-bottom:12px;}
-  .bet-btn{flex:1;padding:11px 4px;border-radius:4px;border:1px solid rgba(201,162,39,.25);
-    cursor:pointer;font-family:'Cinzel',serif;font-weight:600;font-size:12px;letter-spacing:.03em;
-    background:#0f0806;color:var(--muted);transition:.15s ease;}
-  .bet-btn.selected{border-color:var(--gold);color:var(--gold-bright);background:rgba(201,162,39,.12);}
-
+  .bet-btn{flex:1;padding:11px 4px;border-radius:4px;border:1px solid rgba(201,162,39,.25);cursor:pointer;font-family:'Cinzel',serif;font-size:12px;background:#0f0806;color:var(--muted);}
+  .bet-btn.selected{border-color:var(--gold);color:var(--gold-bright);background:rgba(201,162,39,0.15);}
+  .btn-gold{width:100%;padding:13px;border-radius:4px;border:none;font-family:'Cinzel',serif;font-weight:600;font-size:14px;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;cursor:pointer;}
+  .btn-gold:disabled{opacity:0.5;cursor:not-allowed;}
   .leaderboard{margin-top:16px;}
-  .leaderboard h3{font-size:13px;color:var(--gold-bright);margin-bottom:10px;letter-spacing:.04em;}
+  .leaderboard h3{font-size:13px;color:var(--gold-bright);margin-bottom:10px;font-family:'Cinzel',serif;}
   #leaderboardList{list-style:none;font-size:13px;}
   #leaderboardList li{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(201,162,39,.12);}
-  #leaderboardList li span:first-child{color:var(--ivory);}
-  #leaderboardList li span:last-child{color:var(--gold-bright);font-weight:600;}
-
-  .disclaimer{text-align:center;font-size:10.5px;color:var(--muted);margin-top:14px;line-height:1.6;}
 </style>
 </head>
 <body>
 
 <div id="app">
   <div class="frame">
-    <div class="corner-tr"></div>
-    <div class="corner-bl"></div>
-    
-    <!-- ٹاپ بار -->
     <div class="topbar">
       <div>
         <h1 class="brand-title">Dragon Tiger</h1>
         <div class="brand-sub">LACQUER HALL</div>
       </div>
-      <div class="player-chip">
-        Available Balance
-        <span class="coins"><span id="balanceDisplay">1500</span><span class="coin-icon"></span></span>
-      </div>
+      <div class="player-chip">Available Balance<span class="coins"><span id="balanceDisplay">1500</span> GC</span></div>
     </div>
-
     <div class="hairline"></div>
-
-    <!-- گیم ٹیبل سکرین -->
     <div class="table">
-      <div class="card-slot" id="dragonSlot">
-        <h2>DRAGON</h2>
-        <div class="card" id="dragonCard">?</div>
-      </div>
+      <div class="card-slot" id="dragonSlot"><h2>DRAGON</h2><div class="card" id="dragonCard">?</div></div>
       <div class="vs">VS</div>
-      <div class="card-slot" id="tigerSlot">
-        <h2>TIGER</h2>
-        <div class="card" id="tigerCard">?</div>
-      </div>
+      <div class="card-slot" id="tigerSlot"><h2>TIGER</h2><div class="card" id="tigerCard">?</div></div>
     </div>
-
-    <!-- رزلٹ اور بیٹ بٹنز -->
-    <div class="result-text" id="resultDisplay">Place your bet and click Play!</div>
-    
+    <div class="result-text" id="resultDisplay" style="color:var(--gold-bright);">Select Bet & Play!</div>
     <div class="bet-buttons">
-      <button class="bet-btn selected" id="btn-dragon" onclick="selectBet('dragon')">Dragon (1:1)</button>
-      <button class="bet-btn" id="btn-tie" onclick="selectBet('tie')">Tie (11:1)</button>
-      <button class="bet-btn" id="btn-tiger" onclick="selectBet('tiger')">Tiger (1:1)</button>
+      <button class="bet-btn selected" id="btn-dragon">Dragon (1:1)</button>
+      <button class="bet-btn" id="btn-tie">Tie (11:1)</button>
+      <button class="bet-btn" id="btn-tiger">Tiger (1:1)</button>
     </div>
-
-    <button class="btn btn-gold" id="playBtn" onclick="playRound()">Place Bet (100 GC)</button>
-
+    <button class="btn-gold" id="playBtn">Place Bet (100 GC)</button>
     <div class="hairline"></div>
-
-    <!-- لیڈر بورڈ -->
     <div class="leaderboard">
       <h3>Top Players</h3>
       <ul id="leaderboardList">
-        <li><span>Player_99</span> <span>5,420<span class="coin-icon"></span></span></li>
-        <li><span>TigerKing</span> <span>4,150<span class="coin-icon"></span></span></li>
-        <li><span>Zain_01</span> <span>3,900<span class="coin-icon"></span></span></li>
+        <li><span>Player_99</span> <span>5,420 GC</span></li>
+        <li><span>TigerKing</span> <span>4,150 GC</span></li>
+        <li><span>Zain_01</span> <span>3,900 GC</span></li>
       </ul>
-    </div>
-
-    <div class="disclaimer">
-      This is a simulation platform. Please play responsibly.
     </div>
   </div>
 </div>
@@ -193,74 +86,63 @@
 <script>
   const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
   const cardValues = { '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13, 'A':14 };
-  
   let currentBalance = 1500;
   let selectedBet = 'dragon';
   const betAmount = 100;
 
-  function selectBet(type) {
+  // بٹن کلکس سیٹ کرنا
+  document.getElementById('btn-dragon').addEventListener('click', () => changeBet('dragon'));
+  document.getElementById('btn-tie').addEventListener('click', () => changeBet('tie'));
+  document.getElementById('btn-tiger').addEventListener('click', () => changeBet('tiger'));
+  document.getElementById('playBtn').addEventListener('click', playRound);
+
+  function changeBet(type) {
     selectedBet = type;
-    
-    // تمام بٹنز سے سلیکٹڈ کلاس ہٹائیں
     document.getElementById('btn-dragon').classList.remove('selected');
     document.getElementById('btn-tie').classList.remove('selected');
     document.getElementById('btn-tiger').classList.remove('selected');
-    
-    // صرف کلک کیے گئے بٹن پر کلاس لگائیں
     document.getElementById('btn-' + type).classList.add('selected');
   }
 
   function playRound() {
-    if (currentBalance < betAmount) {
-      alert("آپ کا بیلنس ختم ہو چکا ہے!");
-      return;
-    }
-
+    if (currentBalance < betAmount) { return alert("Balance is low!"); }
+    
     const playBtn = document.getElementById('playBtn');
     playBtn.disabled = true;
-
-    const dCard = document.getElementById('dragonCard');
-    const tCard = document.getElementById('tigerCard');
-    dCard.classList.add('flip');
-    tCard.classList.add('flip');
-
-    document.getElementById('resultDisplay').innerText = "Shuffling cards...";
+    
+    document.getElementById('resultDisplay').style.color = 'var(--muted)';
+    document.getElementById('resultDisplay').innerText = "Shuffling...";
 
     setTimeout(() => {
-      const dragonResult = cards[Math.floor(Math.random() * cards.length)];
-      const tigerResult = cards[Math.floor(Math.random() * cards.length)];
+      const dRes = cards[Math.floor(Math.random() * cards.length)];
+      const tRes = cards[Math.floor(Math.random() * cards.length)];
+      
+      document.getElementById('dragonCard').innerText = dRes;
+      document.getElementById('tigerCard').innerText = tRes;
 
-      dCard.innerText = dragonResult;
-      tCard.innerText = tigerResult;
-
-      dCard.classList.remove('flip');
-      tCard.classList.remove('flip');
-
-      const dVal = cardValues[dragonResult];
-      const tVal = cardValues[tigerResult];
-      let roundResult = '';
-      const resultDisplay = document.getElementById('resultDisplay');
-
-      resultDisplay.className = 'result-text'; 
-
+      const dVal = cardValues[dRes];
+      const tVal = cardValues[tRes];
+      let winType = 'tie';
+      
+      const resText = document.getElementById('resultDisplay');
       if (dVal > tVal) {
-        roundResult = 'dragon';
-        resultDisplay.innerText = "Dragon Wins! (" + dragonResult + " vs " + tigerResult + ")";
-        resultDisplay.classList.add('result-win');
+        winType = 'dragon'; resText.innerText = "Dragon Wins!"; resText.style.color = 'var(--jade-bright)';
       } else if (tVal > dVal) {
-        roundResult = 'tiger';
-        resultDisplay.innerText = "Tiger Wins! (" + tigerResult + " vs " + dragonResult + ")";
-        resultDisplay.classList.add('result-lose');
+        winType = 'tiger'; resText.innerText = "Tiger Wins!"; resText.style.color = 'var(--danger)';
       } else {
-        roundResult = 'tie';
-        resultDisplay.innerText = "It's a Tie! (" + dragonResult + " vs " + tigerResult + ")";
-        resultDisplay.classList.add('result-tie');
+        resText.innerText = "It's a Tie!"; resText.style.color = 'var(--gold-bright)';
       }
 
-      if (selectedBet === roundResult) {
-        if (selectedBet === 'tie') {
-          currentBalance += betAmount * 11; 
-        } else {
-          currentBalance += betAmount; 
-        }
+      if (selectedBet === winType) {
+        currentBalance += (winType === 'tie') ? (betAmount * 11) : betAmount;
       } else {
+        currentBalance -= betAmount;
+      }
+
+      document.getElementById('balanceDisplay').innerText = currentBalance;
+      playBtn.disabled = false;
+    }, 500);
+  }
+</script>
+</body>
+</html>
