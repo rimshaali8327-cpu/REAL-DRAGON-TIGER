@@ -63,52 +63,25 @@
   .brand-sub{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:2px;}
   .player-chip{text-align:right;font-size:12px;color:var(--muted);}
   .player-chip .coins{color:var(--gold-bright);font-weight:700;font-size:15px;display:block;margin-top:2px;}
+  
+  /* خالی ڈبے کا حل - کسٹم کوائن ڈیزائن */
+  .coin-icon::after {
+    content: " GC";
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
 
   /* ---------- Buttons / inputs ---------- */
-  .field{margin-bottom:14px;}
-  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;}
-  .field input{
-    width:100%;padding:11px 12px;border-radius:4px;
-    background:#0f0806;border:1px solid rgba(201,162,39,.3);
-    color:var(--ivory);font-size:14px;font-family:'Noto Sans',sans-serif;
-  }
-  .field input:focus{outline:none;border-color:var(--gold);}
   .btn{
     width:100%;padding:13px;border-radius:4px;border:1px solid transparent;
     font-family:'Cinzel',serif;font-weight:600;font-size:14px;letter-spacing:.03em;
-    cursor:pointer;transition:filter .15s ease;
+    cursor:pointer;transition:all 0.15s ease;
   }
   .btn:hover{filter:brightness(1.08);}
   .btn:disabled{opacity:.45;cursor:not-allowed;filter:none;}
   .btn-gold{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;}
-  .btn-outline{background:transparent;border:1px solid rgba(201,162,39,.45);color:var(--gold-bright);}
-  .btn-jade{background:linear-gradient(180deg,var(--jade-bright),var(--jade));color:#08211a;}
-  .btn-danger{background:transparent;border:1px solid rgba(193,69,46,.6);color:#e08066;}
-  .link-btn{background:none;border:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:0;}
-
-  .status-msg{font-size:13px;text-align:center;min-height:18px;margin-top:10px;}
-  .status-ok{color:var(--jade-bright);}
-  .status-err{color:#e08066;}
-
-  /* ---------- Auth screen ---------- */
-  .tabs{display:flex;gap:6px;margin-bottom:18px;}
-  .tab-btn{flex:1;padding:9px;background:transparent;border:1px solid rgba(201,162,39,.25);
-    color:var(--muted);font-family:'Cinzel',serif;font-size:12px;letter-spacing:.05em;border-radius:4px;cursor:pointer;}
-  .tab-btn.active{background:rgba(201,162,39,.12);color:var(--gold-bright);border-color:var(--gold);}
-
-  .capture-box{
-    border:1px dashed rgba(201,162,39,.4);border-radius:6px;padding:12px;text-align:center;margin-bottom:14px;
-  }
-  .capture-box video,.capture-box img{
-    width:100%;max-width:220px;border-radius:4px;margin:0 auto 10px;display:block;border:1px solid rgba(201,162,39,.3);
-  }
-  .capture-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;}
-
-  /* ---------- Pending / rejected ---------- */
-  .center-note{text-align:center;padding:30px 10px;}
-  .center-note .glyph{font-size:34px;margin-bottom:14px;}
-  .center-note h2{color:var(--gold-bright);font-size:18px;margin-bottom:10px;}
-  .center-note p{font-size:13px;color:var(--muted);line-height:1.7;}
 
   /* ---------- Game table ---------- */
   .table{
@@ -121,12 +94,19 @@
   .card-slot h2{font-size:12px;letter-spacing:.18em;margin-bottom:10px;color:var(--muted);}
   #dragonSlot h2{color:#9fc7ff;}
   #tigerSlot h2{color:#ffb56b;}
+  
+  /* کارڈز اور فلپ اینیمیشن */
   .card{
     width:64px;height:92px;background:linear-gradient(180deg,#fbf3dd,#f2e2b3);color:#241304;
     border-radius:6px;display:flex;align-items:center;justify-content:center;
     font-size:26px;font-family:'Cinzel',serif;font-weight:700;margin:0 auto;
     box-shadow:0 0 18px rgba(201,162,39,.35);border:1px solid var(--gold);
+    transition: transform 0.3s ease;
   }
+  .card.flip {
+    transform: scale(1.1) rotateY(360deg);
+  }
+  
   .vs{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);padding:0 6px;}
   .result-text{text-align:center;min-height:22px;font-size:14px;font-weight:600;margin-bottom:12px;}
   .result-win{color:var(--jade-bright);}
@@ -147,24 +127,6 @@
   #leaderboardList li span:last-child{color:var(--gold-bright);font-weight:600;}
 
   .disclaimer{text-align:center;font-size:10.5px;color:var(--muted);margin-top:14px;line-height:1.6;}
-
-  .foot-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
-
-  /* ---------- Admin ---------- */
-  .admin-user-row{
-    border:1px solid rgba(201,162,39,.2);border-radius:5px;padding:12px;margin-bottom:10px;font-size:13px;
-  }
-  .admin-user-row .row-name{color:var(--gold-bright);font-weight:600;margin-bottom:4px;}
-  .admin-user-row .row-meta{color:var(--muted);font-size:11.5px;line-height:1.6;margin-bottom:8px;}
-  .admin-user-row img{width:100%;max-width:120px;border-radius:4px;margin-bottom:8px;border:1px solid rgba(201,162,39,.3);}
-  .admin-actions{display:flex;gap:8px;}
-  .admin-actions .btn{padding:9px;font-size:12px;}
-  
-  /* فکس کی گئی کلاسز اور ٹیگز */
-  .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;letter-spacing:.03em;font-family:'Cinzel',serif;}
-  .badge-pending{background:rgba(201,162,39,.15);color:var(--gold-bright);border:1px solid rgba(201,162,39,.3);}
-  .badge-approved{background:rgba(47,111,94,.15);color:var(--jade-bright);border:1px solid rgba(47,111,94,.3);}
-  .badge-rejected{background:rgba(193,69,46,.15);color:var(--danger);border:1px solid rgba(193,69,46,.3);}
 </style>
 </head>
 <body>
@@ -181,8 +143,8 @@
         <div class="brand-sub">LACQUER HALL</div>
       </div>
       <div class="player-chip">
-        Balance
-        <span class="coins">1,500 🪙</span>
+        Available Balance
+        <span class="coins"><span id="balanceDisplay">1500</span><span class="coin-icon"></span></span>
       </div>
     </div>
 
@@ -192,25 +154,25 @@
     <div class="table">
       <div class="card-slot" id="dragonSlot">
         <h2>DRAGON</h2>
-        <div class="card">K</div>
+        <div class="card" id="dragonCard">?</div>
       </div>
       <div class="vs">VS</div>
       <div class="card-slot" id="tigerSlot">
         <h2>TIGER</h2>
-        <div class="card">8</div>
+        <div class="card" id="tigerCard">?</div>
       </div>
     </div>
 
     <!-- رزلٹ اور بیٹ بٹنز -->
-    <div class="result-text result-win">Dragon Wins!</div>
+    <div class="result-text" id="resultDisplay">Place your bet and click Play!</div>
     
     <div class="bet-buttons">
-      <button class="bet-btn selected">Dragon (1:1)</button>
-      <button class="bet-btn">Tie (11:1)</button>
-      <button class="bet-btn">Tiger (1:1)</button>
+      <button class="bet-btn selected" onclick="selectBet('dragon')">Dragon (1:1)</button>
+      <button class="bet-btn" onclick="selectBet('tie')">Tie (11:1)</button>
+      <button class="bet-btn" onclick="selectBet('tiger')">Tiger (1:1)</button>
     </div>
 
-    <button class="btn btn-gold">Place Bet</button>
+    <button class="btn btn-gold" id="playBtn" onclick="playRound()">Place Bet (100 GC)</button>
 
     <div class="hairline"></div>
 
@@ -218,9 +180,9 @@
     <div class="leaderboard">
       <h3>Top Players</h3>
       <ul id="leaderboardList">
-        <li><span>Player_99</span> <span>5,420 🪙</span></li>
-        <li><span>TigerKing</span> <span>4,150 🪙</span></li>
-        <li><span>Zain_01</span> <span>3,900 🪙</span></li>
+        <li><span>Player_99</span> <span>5,420<span class="coin-icon"></span></span></li>
+        <li><span>TigerKing</span> <span>4,150<span class="coin-icon"></span></span></li>
+        <li><span>Zain_01</span> <span>3,900<span class="coin-icon"></span></span></li>
       </ul>
     </div>
 
@@ -230,5 +192,73 @@
   </div>
 </div>
 
-</body>
-</html>
+<script>
+  // کارڈز کی لسٹ اور ان کی ویلیوز
+  const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  const cardValues = { '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13, 'A':14 };
+  
+  let currentBalance = 1500;
+  let selectedBet = 'dragon';
+  const betAmount = 100;
+
+  function selectBet(type) {
+    selectedBet = type;
+    // بٹنز کی ہائی لائٹ تبدیل کرنا
+    const buttons = document.querySelectorAll('.bet-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    
+    if(type === 'dragon') buttons[0].classList.add('selected');
+    if(type === 'tie') buttons[1].classList.add('selected');
+    if(type === 'tiger') buttons[2].classList.add('selected');
+  }
+
+  function playRound() {
+    if (currentBalance < betAmount) {
+      alert("آپ کا بیلنس ختم ہو چکا ہے!");
+      return;
+    }
+
+    // بٹن کو عارضی طور پر ڈس ایبل کرنا
+    const playBtn = document.getElementById('playBtn');
+    playBtn.disabled = true;
+
+    // کارڈز پر اینیمیشن لگانا
+    const dCard = document.getElementById('dragonCard');
+    const tCard = document.getElementById('tigerCard');
+    dCard.classList.add('flip');
+    tCard.classList.add('flip');
+
+    document.getElementById('resultDisplay').innerText = "Shuffling cards...";
+
+    setTimeout(() => {
+      // رینڈم کارڈز نکالنا
+      const dragonResult = cards[Math.floor(Math.random() * cards.length)];
+      const tigerResult = cards[Math.floor(Math.random() * cards.length)];
+
+      // سکرین پر کارڈز دکھانا
+      dCard.innerText = dragonResult;
+      tCard.innerText = tigerResult;
+
+      // اینیمیشن ختم کرنا
+      dCard.classList.remove('flip');
+      tCard.classList.remove('flip');
+
+      // جیتنے والے کا فیصلہ
+      const dVal = cardValues[dragonResult];
+      const tVal = cardValues[tigerResult];
+      let roundResult = '';
+      const resultDisplay = document.getElementById('resultDisplay');
+
+      resultDisplay.className = 'result-text'; // ری سیٹ کلاسز
+
+      if (dVal > tVal) {
+        roundResult = 'dragon';
+        resultDisplay.innerText = "Dragon Wins! (" + dragonResult + " vs " + tigerResult + ")";
+        resultDisplay.classList.add('result-win');
+      } else if (tVal > dVal) {
+        roundResult = 'tiger';
+        resultDisplay.innerText = "Tiger Wins! (" + tigerResult + " vs " + dragonResult + ")";
+        resultDisplay.classList.add('result-lose');
+      } else {
+        roundResult = 'tie';
+        resultDisplay.innerText = "It's a Tie! (" + dragonResult + " vs " + tigerResult + ")";
