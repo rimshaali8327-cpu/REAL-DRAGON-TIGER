@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dragon Tiger - Virtual Coins Game</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body {
+    background: radial-gradient(circle at top, #1b0f2e 0%, #0a0612 70%);
+    color: #f5e9d0; min-height: 100vh; display: flex; justify-content: center; padding: 20px 10px;
+  }
+  #app { width: 100%; max-width: 480px; }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(180deg, #2b1a45, #1a0f2e);
+    border: 1px solid #6b4fa0; border-radius: 14px; padding: 12px 16px; margin-bottom: 12px;
+  }
+  .topbar h1 {
+    font-size: 20px; background: linear-gradient(90deg, #ffd76a, #ff7676);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .player-info { display: flex; flex-direction: column; align-items: flex-end; font-size: 13px; }
+  .coins { font-weight: bold; color: #ffd76a; }
+  .bonus-box {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #23132f; border: 1px solid #4a3466; border-radius: 10px;
+    padding: 10px 14px; margin-bottom: 12px; font-size: 13px;
+  }
+  #bonusBtn {
+    background: linear-gradient(90deg, #2ecc71, #27ae60); border: none; color: white;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: bold;
+  }
+  #bonusBtn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+  .table {
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(180deg, #1e2a45, #101828);
+    border: 2px solid #3b5c8f; border-radius: 16px; padding: 24px 12px; margin-bottom: 10px;
+  }
+  .card-slot { text-align: center; flex: 1; }
+  .card-slot h2 { font-size: 14px; letter-spacing: 2px; margin-bottom: 8px; color: #9fc7ff; }
+  #tigerSlot h2 { color: #ffb56b; }
+  .card {
+    width: 70px; height: 100px; background: #fff8ec; color: #1a0f2e; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    font-weight: bold; margin: 0 auto; box-shadow: 0 0 14px rgba(255, 215, 106, 0.5);
+  }
+  .vs { font-size: 20px; font-weight: bold; color: #ff7676; padding: 0 8px; }
+  .result-text { text-align: center; min-height: 26px; font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+  .result-win { color: #2ecc71; }
+  .result-lose { color: #e74c3c; }
+  .result-tie { color: #ffd76a; }
+  .betting { background: #17101f; border: 1px solid #3a2650; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+  .bet-amount { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 14px; }
+  #betInput {
+    flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #4a3466;
+    background: #0f0918; color: #f5e9d0; font-size: 14px;
+  }
+  .bet-buttons { display: flex; gap: 8px; margin-bottom: 12px; }
+  .bet-btn {
+    flex: 1; padding: 10px 4px; border-radius: 8px; border: 1px solid transparent;
+    cursor: pointer; font-weight: bold; font-size: 13px; background: #241733;
+    color: #cbb8e8; transition: transform 0.1s;
+  }
+  .bet-btn.selected { transform: scale(1.04); border-color: #ffd76a; }
+  .dragon-btn.selected { background: #1e3f6b; color: #9fc7ff; }
+  .tie-btn.selected { background: #4a3466; color: #ffd76a; }
+  .tiger-btn.selected { background: #6b3410; color: #ffb56b; }
+  #dealBtn {
+    width: 100%; padding: 12px; border: none; border-radius: 10px;
+    background: linear-gradient(90deg, #ff7676, #ffd76a); color: #1a0f2e;
+    font-weight: bold; font-size: 15px; cursor: pointer;
+  }
+  #dealBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .leaderboard { background: #17101f; border: 1px solid #3a2650; border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; }
+  .leaderboard h3 { font-size: 14px; margin-bottom: 8px; color: #ffd76a; }
+  #leaderboardList { list-style: decimal; padding-left: 20px; font-size: 13px; }
+  #leaderboardList li { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid #2a1d3d; }
+  .disclaimer { text-align: center; font-size: 11px; color: #8a7a9a; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <header class="topbar">
+    <h1>🐉 Dragon Tiger 🐯</h1>
+    <div class="player-info">
+      <span id="playerName">Loading...</span>
+      <span class="coins">💰 <span id="coinBalance">0</span></span>
+    </div>
+  </header>
+
+  <div id="bonusBox" class="bonus-box">
+    <button id="bonusBtn">🎁 Daily Bonus Claim Karein</button>
+    <span id="bonusTimer"></span>
+  </div>
+
+  <main class="table">
+    <div class="card-slot" id="dragonSlot">
+      <h2>DRAGON</h2>
+      <div class="card" id="dragonCard">?</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="card-slot" id="tigerSlot">
+      <h2>TIGER</h2>
+      <div class="card" id="tigerCard">?</div>
+    </div>
+  </main>
+
+  <div id="resultText" class="result-text"></div>
+
+  <section class="betting">
+    <div class="bet-amount">
+      <label for="betInput">Bet Amount:</label>
+      <input type="number" id="betInput" value="50" min="10" step="10" />
+    </div>
+    <div class="bet-buttons">
+      <button class="bet-btn dragon-btn" data-choice="dragon">Dragon par Bet</button>
+      <button class="bet-btn tie-btn" data-choice="tie">Tie par Bet</button>
+      <button class="bet-btn tiger-btn" data-choice="tiger">Tiger par Bet</button>
+    </div>
+    <button id="dealBtn">🎴 Deal Karein</button>
+  </section>
+
+  <section class="leaderboard">
+    <h3>🏆 Leaderboard (Top 10)</h3>
+    <ol id="leaderboardList"></ol>
+  </section>
+
+  <p class="disclaimer">⚠️ Ye sirf entertainment ke liye hai. Coins virtual hain, koi real paisa involve nahi hai.</p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import {
+    getAuth, signInAnonymously, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc,
+    collection, query, orderBy, limit, getDocs,
+    serverTimestamp, increment
+  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBfCNFUByurlLOlUx1dT2XjcTt9ywRFklI",
+    authDomain: "real-dragon-tiger-196d3.firebaseapp.com",
+    projectId: "real-dragon-tiger-196d3",
+    storageBucket: "real-dragon-tiger-196d3.firebasestorage.app",
+    messagingSenderId: "485463684215",
+    appId: "1:485463684215:web:0af4f648bedf0aa66bc272",
+    measurementId: "G-0JTM9TCLPB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const STARTING_COINS = 1000;
+  const DAILY_BONUS_COINS = 200;
+  const DAILY_BONUS_COOLDOWN_HOURS = 24;
+
+  const playerNameEl = document.getElementById("playerName");
+  const coinBalanceEl = document.getElementById("coinBalance");
+  const bonusBtn = document.getElementById("bonusBtn");
+  const bonusTimer = document.getElementById("bonusTimer");
+  const dragonCardEl = document.getElementById("dragonCard");
+  const tigerCardEl = document.getElementById("tigerCard");
+  const resultTextEl = document.getElementById("resultText");
+  const betInput = document.getElementById("betInput");
+  const dealBtn = document.getElementById("dealBtn");
+  const betButtons = document.querySelectorAll(".bet-btn");
+  const leaderboardList = document.getElementById("leaderboardList");
+
+  let currentUser = null;
+  let playerData = null;
+  let selectedChoice = null;
+
+  signInAnonymously(auth).catch((err) => {
+    console.error("Auth error:", err);
+    resultTextEl.textContent = "Login mein masla aaya, page reload karein.";
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    currentUser = user;
+    await loadOrCreatePlayer(user.uid);
+    renderPlayer();
+    updateBonusButton();
+    loadLeaderboard();
+  });
+
+  async function loadOrCreatePlayer(uid) {
+    const ref = doc(db, "players", uid);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      playerData = snap.data();
+    } else {
+      playerData = {
+        name: "Guest-" + uid.slice(0, 5),
+        coins: STARTING_COINS,
+        lastBonusAt: null,
+        createdAt: serverTimestamp()
+      };
+      await setDoc(ref, playerData);
+    }
+  }
+
+  function renderPlayer() {
+    playerNameEl.textContent = playerData.name;
+    coinBalanceEl.textContent = playerData.coins;
+  }
+
+  function updateBonusButton() {
+    const last = playerData.lastBonusAt;
+    if (!last) {
+      bonusBtn.disabled = false;
+      bonusTimer.textContent = "";
+      return;
+    }
+    const lastMs = last.toMillis ? last.toMillis() : new Date(last).getTime();
+    const cooldownMs = DAILY_BONUS_COOLDOWN_HOURS * 60 * 60 * 1000;
+    const remaining = lastMs + cooldownMs - Date.now();
+    if (remaining <= 0) {
+      bonusBtn.disabled = false;
+      bonusTimer.textContent = "";
+    } else {
+      bonusBtn.disabled = true;
+      const hrs = Math.floor(remaining / 3600000);
+      const mins = Math.floor((remaining % 3600000) / 60000);
+      bonusTimer.textContent = `Agla bonus: ${hrs}h ${mins}m baad`;
+    }
+  }
+
+  bonusBtn.addEventListener("click", async () => {
+    if (!currentUser) return;
+    const ref = doc(db, "players", currentUser.uid);
+    await updateDoc(ref, {
+      coins: increment(DAILY_BONUS_COINS),
+      lastBonusAt: serverTimestamp()
+    });
+    const snap = await getDoc(ref);
+    playerData = snap.data();
+    renderPlayer();
+    updateBonusButton();
+    resultTextEl.textContent = `🎁 +${DAILY_BONUS_COINS} coins mil gaye!`;
+    resultTextEl.className = "result-text result-win";
+  });
+
+  betButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      betButtons.forEach((b) => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedChoice = btn.dataset.choice;
+    });
+  });
+
+  function drawCard() {
+    return Math.floor(Math.random() * 13) + 1;
+  }
+  function cardLabel(value) {
+    const labels = { 1: "A", 11: "J", 12: "Q", 13: "K" };
+    return labels[value] || String(value);
+  }
+
+  dealBtn.addEventListener("click", async () => {
+    if (!currentUser || !playerData) return;
+    const betAmount = parseInt(betInput.value, 10);
+
+    if (!selectedChoice) {
+      resultTextEl.textContent = "Pehle Dragon / Tie / Tiger choose karein.";
+      resultTextEl.className = "result-text result-lose";
+      return;
+    }
+    if (!betAmount || betAmount < 10) {
+      resultTextEl.textContent = "Minimum bet 10 coins hai.";
+      resultTextEl.className = "result-text result-lose";
+      return;
+    }
+    if (betAmount > playerData.coins) {
+      resultTextEl.textContent = "Itne coins nahi hain aapke paas.";
+      resultTextEl.className = "result-text result-lose";
+      return;
+    }
+
+    dealBtn.disabled = true;
+
+    const dragonVal = drawCard();
+    const tigerVal = drawCard();
+    dragonCardEl.textContent = cardLabel(dragonVal);
+    tigerCardEl.textContent = cardLabel(tigerVal);
+
+    let outcome;
+    if (dragonVal > tigerVal) outcome = "dragon";
+    else if (tigerVal > dragonVal) outcome = "tiger";
+    else outcome = "tie";
+
+    let payout = 0;
+    let won = false;
+    if (selectedChoice === outcome) {
+      won = true;
+      payout = outcome === "tie" ? betAmount * 8 : betAmount * 2;
+    }
+
+    const coinChange = won ? payout - betAmount : -betAmount;
+
+    const ref = doc(db, "players", currentUser.uid);
+    await updateDoc(ref, { coins: increment(coinChange) });
+    const snap = await getDoc(ref);
+    playerData = snap.data();
+    renderPlayer();
+
+    if (won) {
+      resultTextEl.textContent = `🎉 ${outcome.toUpperCase()} jeeta! +${payout - betAmount} coins`;
+      resultTextEl.className = "result-text result-win";
+    } else if (outcome === "tie") {
+      resultTextEl.textContent = `Tie aaya, aapne Tie par bet nahi lagayi thi. -${betAmount} coins`;
+      resultTextEl.className = "result-text result-tie";
+    } else {
+      resultTextEl.textContent = `${outcome.toUpperCase()} jeeta. -${betAmount} coins`;
+      resultTextEl.className = "result-text result-lose";
+    }
+
+    dealBtn.disabled = false;
+    loadLeaderboard();
+  });
+
+  async function loadLeaderboard() {
+    const q = query(collection(db, "players"), orderBy("coins", "desc"), limit(10));
+    const snap = await getDocs(q);
+    leaderboardList.innerHTML = "";
+    snap.forEach((docSnap) => {
+      const p = docSnap.data();
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${p.name}</span><span>${p.coins}</span>`;
+      leaderboardList.appendChild(li);
+    });
+  }
+
+  setInterval(() => {
+    if (playerData) updateBonusButton();
+  }, 60000);
+</script>
+
+</body>
+</html>
