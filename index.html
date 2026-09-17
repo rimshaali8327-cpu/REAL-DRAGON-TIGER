@@ -502,10 +502,11 @@
 
   function friendlyAuthError(err){
     const code = err && err.code ? err.code : "";
+    console.error("Auth/Firestore error:", code, err);
     if (code.includes("email-already-in-use")) return "Yeh Gmail pehle se register hai — Login karein.";
     if (code.includes("invalid-credential") || code.includes("wrong-password") || code.includes("user-not-found")) return "Email ya password ghalat hai.";
     if (code.includes("invalid-email")) return "Email theek format mein nahi hai.";
-    return "Kuch masla aaya, dobara koshish karein.";
+    return `Kuch masla aaya (${code || "unknown-error"}), dobara koshish karein.`;
   }
 
   // ---------- Logout ----------
