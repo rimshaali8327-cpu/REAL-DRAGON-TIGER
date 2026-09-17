@@ -338,10 +338,6 @@
     collection, query, where, orderBy, limit, getDocs,
     serverTimestamp, increment
   } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-  import {
-    getStorage, ref as storageRef, uploadString, getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
-
   const firebaseConfig = {
     apiKey: "AIzaSyBfCNFUByurlLOlUx1dT2XjcTt9ywRFklI",
     authDomain: "real-dragon-tiger-196d3.firebaseapp.com",
@@ -355,7 +351,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const storage = getStorage(app);
 
   const STARTING_COINS = 1000;
   const DAILY_BONUS_COINS = 200;
@@ -415,10 +410,15 @@
   });
 
   snapBtn.addEventListener("click", () => {
-    const w = camVideo.videoWidth || 320, h = camVideo.videoHeight || 240;
+    // Downscale to max 320px wide and compress harder so the base64 string
+    // stays well under Firestore's 1MB per-document limit.
+    const MAX_W = 320;
+    const srcW = camVideo.videoWidth || 320, srcH = camVideo.videoHeight || 240;
+    const scale = Math.min(1, MAX_W / srcW);
+    const w = Math.round(srcW * scale), h = Math.round(srcH * scale);
     camCanvas.width = w; camCanvas.height = h;
     camCanvas.getContext("2d").drawImage(camVideo, 0, 0, w, h);
-    capturedDataUrl = camCanvas.toDataURL("image/jpeg", 0.85);
+    capturedDataUrl = camCanvas.toDataURL("image/jpeg", 0.6);
     camSnapshot.src = capturedDataUrl;
     camSnapshot.classList.remove("hidden");
     camVideo.classList.add("hidden");
@@ -462,13 +462,10 @@
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       const uid = cred.user.uid;
 
-      const photoPath = `faceVerifications/${uid}.jpg`;
-      const sRef = storageRef(storage, photoPath);
-      await uploadString(sRef, capturedDataUrl, "data_url");
-      const photoURL = await getDownloadURL(sRef);
-
+      // Photo is stored directly as a base64 data URL in Firestore (no Storage
+      // bucket needed — works on the free Spark plan).
       await setDoc(doc(db, "users", uid), {
-        name, email, mobile, photoURL,
+        name, email, mobile, photoURL: capturedDataUrl,
         status: "pending",
         coins: 0,
         lastBonusAt: null,
