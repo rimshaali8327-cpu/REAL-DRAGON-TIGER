@@ -270,7 +270,14 @@
   .chat-bubble{max-width:78%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5;word-wrap:break-word;}
   .chat-bubble.mine{align-self:flex-end;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;border-bottom-right-radius:2px;}
   .chat-bubble.theirs{align-self:flex-start;background:#1a0f0c;border:1px solid rgba(201,162,39,.25);color:var(--ivory);border-bottom-left-radius:2px;}
-  .chat-bubble .sender-label{font-size:10px;opacity:.75;margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.05em;}
+  .chat-bubble .sender-label{font-size:10px;opacity:.75;margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.05em;display:flex;align-items:center;gap:5px;}
+  .admin-badge{
+    display:inline-flex;align-items:center;gap:3px;
+    background:rgba(63,156,129,.18);color:var(--jade-bright);
+    border:1px solid rgba(63,156,129,.5);border-radius:10px;
+    padding:1px 7px;font-size:9px;letter-spacing:.04em;font-weight:700;
+    font-family:'Noto Sans',sans-serif;
+  }
   .chat-bubble img{max-width:100%;border-radius:6px;margin-top:6px;cursor:pointer;display:block;}
   .chat-bubble .msg-time{font-size:9.5px;opacity:.65;margin-top:4px;text-align:right;}
   .chat-attach-preview{font-size:11px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:8px;}
@@ -1259,7 +1266,18 @@
 
     const label = document.createElement("div");
     label.className = "sender-label";
-    label.textContent = msg.senderRole === "admin" ? "Admin" : (mine ? "Aap" : "Player");
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = msg.senderRole === "admin" ? "Admin" : (mine ? "Aap" : "Player");
+    label.appendChild(nameSpan);
+
+    if (msg.senderRole === "admin") {
+      const badge = document.createElement("span");
+      badge.className = "admin-badge";
+      badge.textContent = "✓ Verified";
+      badge.title = "Ye nishani sirf asli Admin account ke messages par lagti hai — database rules ke zariye lock hai, koi player ise hasil nahi kar sakta.";
+      label.appendChild(badge);
+    }
     bubble.appendChild(label);
 
     if (msg.text) {
