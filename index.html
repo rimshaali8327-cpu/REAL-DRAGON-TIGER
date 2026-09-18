@@ -206,6 +206,12 @@
   .req-row{border:1px solid rgba(201,162,39,.15);border-radius:5px;padding:10px;margin-bottom:8px;font-size:12px;background:#0f0806;}
   .req-row .req-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
   .req-row .req-meta{color:var(--muted);font-size:11px;line-height:1.6;}
+  .wallet-contact{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.3);border-radius:5px;
+    padding:9px 12px;margin-bottom:12px;font-size:11.5px;color:var(--gold-bright);line-height:1.5;
+  }
+  .wallet-contact .btn{width:auto;padding:7px 12px;font-size:11px;margin-left:auto;}
 
   /* ---------- Chat ---------- */
   .chat-msgs{list-style:none;max-height:320px;min-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;
@@ -438,6 +444,10 @@
       </div>
 
       <div id="wPaneDeposit">
+        <div class="wallet-contact">
+          ⚠️ Deposit karne se pehle chatbox mein admin se raabta karein — tareeqa aur rate confirm karein.
+          <button class="btn btn-outline" id="depContactBtn">💬 Admin se Rabta</button>
+        </div>
         <div class="field"><label>Dollars</label><input type="number" id="depDollars" min="1" step="1" value="1" /></div>
         <p class="conv-preview" id="depPreview">= 200 coins</p>
         <div class="field"><label>Wallet Address</label><input type="text" id="depWallet" placeholder="0x..." /></div>
@@ -446,6 +456,10 @@
       </div>
 
       <div id="wPaneWithdraw" class="hidden">
+        <div class="wallet-contact">
+          ⚠️ Withdraw lene se pehle chatbox mein admin se raabta karein — payment ka tareeqa confirm karein.
+          <button class="btn btn-outline" id="wdContactBtn">💬 Admin se Rabta</button>
+        </div>
         <div class="field"><label>Coins</label><input type="number" id="wdCoins" min="200" step="200" value="200" /></div>
         <p class="conv-preview" id="wdPreview">= 1.00 dollars</p>
         <div class="field"><label>Wallet Address</label><input type="text" id="wdWallet" placeholder="0x..." /></div>
@@ -1425,11 +1439,14 @@
   const adminChatUi = wireChatUi("admin");
 
   // ---------- User chat screen ----------
-  document.getElementById("openChatBtn").addEventListener("click", () => {
+  function openUserChat(){
     if (!currentUser) return;
     showScreen("chat");
     openChat(currentUser.uid, document.getElementById("userChatMessages"));
-  });
+  }
+  document.getElementById("openChatBtn").addEventListener("click", openUserChat);
+  document.getElementById("depContactBtn").addEventListener("click", openUserChat);
+  document.getElementById("wdContactBtn").addEventListener("click", openUserChat);
   document.getElementById("chatBackBtn").addEventListener("click", () => {
     stopChat();
     userChatUi.clearPending();
