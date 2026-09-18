@@ -97,12 +97,6 @@
     color:var(--muted);font-family:'Cinzel',serif;font-size:12px;letter-spacing:.05em;border-radius:4px;cursor:pointer;}
   .tab-btn.active{background:rgba(201,162,39,.12);color:var(--gold-bright);border-color:var(--gold);}
 
-  .capture-box{
-    border:1px dashed rgba(201,162,39,.4);border-radius:6px;padding:12px;text-align:center;margin-bottom:14px;
-  }
-  .capture-box video,.capture-box img{
-    width:100%;max-width:220px;border-radius:4px;margin:0 auto 10px;display:block;border:1px solid rgba(201,162,39,.3);
-  }
   .capture-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;}
 
   /* ---------- Pending / rejected ---------- */
@@ -219,7 +213,6 @@
   }
   .admin-user-row .row-name{color:var(--gold-bright);font-weight:600;margin-bottom:4px;}
   .admin-user-row .row-meta{color:var(--muted);font-size:11.5px;line-height:1.6;margin-bottom:8px;}
-  .admin-user-row img{width:100%;max-width:120px;border-radius:4px;margin-bottom:8px;border:1px solid rgba(201,162,39,.3);}
   .admin-actions{display:flex;gap:8px;}
   .admin-actions .btn{padding:9px;font-size:12px;}
   .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;letter-spacing:.03em;font-family:'Cinzel',serif;}
@@ -262,6 +255,53 @@
   ::-webkit-scrollbar{width:6px;}
   ::-webkit-scrollbar-track{background:#0f0806;}
   ::-webkit-scrollbar-thumb{background:rgba(201,162,39,.4);border-radius:3px;}
+
+  /* ---------- Chat ---------- */
+  .unread-dot{width:8px;height:8px;border-radius:50%;background:var(--danger);display:inline-block;margin-left:6px;vertical-align:middle;}
+  .chat-shell{display:flex;flex-direction:column;}
+  .chat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .chat-header h2{color:var(--gold-bright);font-size:15px;}
+  .chat-messages{
+    height:360px;overflow-y:auto;padding:6px 4px;
+    display:flex;flex-direction:column;gap:10px;
+    background:#0f0806;border:1px solid rgba(201,162,39,.15);border-radius:6px;
+  }
+  .chat-empty{text-align:center;color:var(--muted);font-size:12px;padding:30px 10px;}
+  .chat-bubble{max-width:78%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5;word-wrap:break-word;}
+  .chat-bubble.mine{align-self:flex-end;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;border-bottom-right-radius:2px;}
+  .chat-bubble.theirs{align-self:flex-start;background:#1a0f0c;border:1px solid rgba(201,162,39,.25);color:var(--ivory);border-bottom-left-radius:2px;}
+  .chat-bubble .sender-label{font-size:10px;opacity:.75;margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.05em;}
+  .chat-bubble img{max-width:100%;border-radius:6px;margin-top:6px;cursor:pointer;display:block;}
+  .chat-bubble .msg-time{font-size:9.5px;opacity:.65;margin-top:4px;text-align:right;}
+  .chat-attach-preview{font-size:11px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:8px;}
+  .chat-attach-preview button{background:none;border:none;color:#e08066;cursor:pointer;font-size:13px;}
+  .chat-input-row{display:flex;gap:8px;margin-top:10px;align-items:flex-end;}
+  .chat-input-row textarea{
+    flex:1;resize:none;min-height:42px;max-height:90px;padding:10px 12px;border-radius:4px;
+    background:#0f0806;border:1px solid rgba(201,162,39,.3);color:var(--ivory);
+    font-family:'Noto Sans',sans-serif;font-size:13px;
+  }
+  .chat-input-row textarea:focus{outline:none;border-color:var(--gold);}
+  .chat-attach-btn{
+    width:42px;height:42px;border-radius:4px;background:transparent;
+    border:1px solid rgba(201,162,39,.35);color:var(--gold-bright);
+    font-size:17px;cursor:pointer;flex-shrink:0;
+  }
+  .chat-attach-btn:hover{border-color:var(--gold);}
+  .chat-send-btn{width:50px;height:42px;flex-shrink:0;padding:0;}
+
+  /* ---------- Admin chat list ---------- */
+  .admin-chat-row{
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    border:1px solid rgba(201,162,39,.2);border-radius:5px;padding:12px;
+    margin-bottom:8px;cursor:pointer;transition:.15s ease;
+  }
+  .admin-chat-row:hover{border-color:var(--gold);}
+  .admin-chat-row .chat-row-name{color:var(--gold-bright);font-weight:600;font-size:13px;margin-bottom:3px;}
+  .admin-chat-row .chat-row-preview{
+    color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis;max-width:220px;
+  }
 </style>
 </head>
 <body>
@@ -298,19 +338,6 @@
       <div class="field"><label>Mobile Number</label><input type="tel" id="suMobile" placeholder="+92 3xx xxxxxxx" autocomplete="tel" /></div>
       <div class="field"><label>Password (kam az kam 6 harf)</label><input type="password" id="suPassword" placeholder="••••••••" autocomplete="new-password" /></div>
 
-      <div class="field">
-        <label>Chehre Ki Tasdeeq (Face Verification)</label>
-        <div class="capture-box">
-          <video id="camVideo" autoplay playsinline muted class="hidden"></video>
-          <img id="camSnapshot" class="hidden" alt="Snapshot" />
-          <canvas id="camCanvas" class="hidden"></canvas>
-          <button type="button" class="btn btn-outline" id="startCamBtn">📷 Camera Kholain</button>
-          <button type="button" class="btn btn-jade hidden" id="snapBtn" style="margin-top:8px;">Tasveer Khenchein</button>
-          <button type="button" class="btn btn-outline hidden" id="retakeBtn" style="margin-top:8px;">Dobara Khenchein</button>
-          <p class="capture-note">Yeh tasveer sirf admin ke manual review ke liye mehfooz hoti hai — is mein automatic AI face-match shamil nahi hai.</p>
-        </div>
-      </div>
-
       <button class="btn btn-gold" id="signupBtn">Darkhwast Bhejein</button>
       <p class="status-msg" id="signupMsg"></p>
     </div>
@@ -322,7 +349,7 @@
     <div class="center-note">
       <div class="glyph">⏳</div>
       <h2>Darkhwast Zair-e-Ghor Hai</h2>
-      <p>Aapki mobile number, Gmail aur tasveer admin ko bhej di gayi hai. Manzoori milte hi aap khel sakte hain. Barah-e-meherbani thori dair baad dobara check karein.</p>
+      <p>Aapki mobile number aur Gmail admin ko bhej di gayi hai. Manzoori milte hi aap khel sakte hain. Barah-e-meherbani thori dair baad dobara check karein.</p>
     </div>
     <div class="hairline"></div>
     <button class="btn btn-outline" id="pendingRefreshBtn">Status Check Karein</button>
@@ -422,16 +449,81 @@
 
     <div class="foot-row">
       <button class="link-btn" id="logoutBtn">Logout</button>
+      <button class="link-btn" id="openChatBtn">💬 Madad Chat<span class="unread-dot hidden" id="chatUnreadDot"></span></button>
       <button class="link-btn hidden" id="openAdminBtn">Admin Panel</button>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORT CHAT SCREEN (PLAYER) ============ -->
+  <section id="chatScreen" class="frame hidden">
+    <span class="corner-tr"></span><span class="corner-bl"></span>
+    <div class="chat-shell">
+      <div class="chat-header">
+        <h2>💬 Admin Se Madad</h2>
+        <button class="link-btn" id="chatBackBtn">← Wapas</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <p class="chat-empty hidden" id="chatEmpty">Abhi koi paigham nahi. Apna masla neeche likh kar bhejein, ya screenshot attach karein.</p>
+      <div class="chat-attach-preview hidden" id="chatAttachPreview">
+        <span id="chatAttachName"></span>
+        <button id="chatAttachRemove" type="button">✕ Hatayein</button>
+      </div>
+      <div class="chat-input-row">
+        <input type="file" id="chatImageInput" accept="image/*" class="hidden" />
+        <button class="chat-attach-btn" id="chatAttachBtn" type="button" title="Screenshot bhejein">📎</button>
+        <textarea id="chatTextInput" placeholder="Apna masla likhein..."></textarea>
+        <button class="btn btn-gold chat-send-btn" id="chatSendBtn" type="button">➤</button>
+      </div>
     </div>
   </section>
 
   <!-- ============ ADMIN SCREEN ============ -->
   <section id="adminScreen" class="frame hidden">
     <span class="corner-tr"></span><span class="corner-bl"></span>
-    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:14px;">Zair-e-Ghor Darkhwastein</h2>
-    <div id="adminList"></div>
-    <p id="adminEmpty" class="capture-note hidden">Koi zair-e-ghor darkhwast nahi hai.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="adminTabRequests">Darkhwastein</button>
+      <button class="tab-btn" id="adminTabChats">Chat Support<span class="unread-dot hidden" id="adminChatUnreadDot"></span></button>
+    </div>
+
+    <!-- REQUESTS PANEL -->
+    <div id="adminRequestsPanel">
+      <div id="adminList"></div>
+      <p id="adminEmpty" class="capture-note hidden">Koi zair-e-ghor darkhwast nahi hai.</p>
+    </div>
+
+    <!-- CHAT SUPPORT PANEL -->
+    <div id="adminChatsPanel" class="hidden">
+
+      <!-- Chat list view -->
+      <div id="adminChatsListView">
+        <div id="adminChatsList"></div>
+        <p id="adminChatsEmpty" class="capture-note hidden">Abhi koi player ne chat nahi ki.</p>
+      </div>
+
+      <!-- Chat thread view -->
+      <div id="adminChatThreadView" class="hidden">
+        <div class="chat-shell">
+          <div class="chat-header">
+            <h2 id="adminChatThreadTitle">Player</h2>
+            <button class="link-btn" id="adminChatBackBtn">← List Mein Wapas</button>
+          </div>
+          <div class="chat-messages" id="adminChatMessages"></div>
+          <div class="chat-attach-preview hidden" id="adminChatAttachPreview">
+            <span id="adminChatAttachName"></span>
+            <button id="adminChatAttachRemove" type="button">✕ Hatayein</button>
+          </div>
+          <div class="chat-input-row">
+            <input type="file" id="adminChatImageInput" accept="image/*" class="hidden" />
+            <button class="chat-attach-btn" id="adminChatAttachBtn" type="button" title="Screenshot bhejein">📎</button>
+            <textarea id="adminChatTextInput" placeholder="Jawab likhein..."></textarea>
+            <button class="btn btn-gold chat-send-btn" id="adminChatSendBtn" type="button">➤</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
     <div class="hairline"></div>
     <button class="link-btn" id="adminExitBtn">← Wapas Khel Mein</button>
   </section>
@@ -450,7 +542,7 @@
     serverTimestamp, increment, runTransaction, Timestamp
   } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
   import {
-    getStorage, ref as storageRef, uploadString, getDownloadURL
+    getStorage, ref as storageRef, uploadBytes, getDownloadURL
   } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 
   // ============================================================
@@ -478,6 +570,7 @@
   const TIE_PAYOUT = 8;
   const NORMAL_PAYOUT = 2;
   const HISTORY_LIMIT = 20;
+  const MAX_IMAGE_MB = 5;
 
   // ============================================================
   // UTILITIES
@@ -563,6 +656,7 @@
     rejected: document.getElementById("rejectedScreen"),
     game: document.getElementById("gameScreen"),
     admin: document.getElementById("adminScreen"),
+    chat: document.getElementById("chatScreen"),
   };
   function showScreen(name){
     Object.values(screens).forEach(s => s.classList.add("hidden"));
@@ -586,52 +680,6 @@
   });
 
   // ============================================================
-  // FACE CAPTURE
-  // ============================================================
-  const camVideo = document.getElementById("camVideo");
-  const camSnapshot = document.getElementById("camSnapshot");
-  const camCanvas = document.getElementById("camCanvas");
-  const startCamBtn = document.getElementById("startCamBtn");
-  const snapBtn = document.getElementById("snapBtn");
-  const retakeBtn = document.getElementById("retakeBtn");
-  let camStream = null;
-  let capturedDataUrl = null;
-
-  startCamBtn.addEventListener("click", async () => {
-    try {
-      camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-      camVideo.srcObject = camStream;
-      camVideo.classList.remove("hidden");
-      startCamBtn.classList.add("hidden");
-      snapBtn.classList.remove("hidden");
-    } catch (err) {
-      showToast("Camera khulne mein masla. Browser permission check karein.", "error");
-      sounds.error();
-    }
-  });
-
-  snapBtn.addEventListener("click", () => {
-    const w = camVideo.videoWidth || 320, h = camVideo.videoHeight || 240;
-    camCanvas.width = w; camCanvas.height = h;
-    camCanvas.getContext("2d").drawImage(camVideo, 0, 0, w, h);
-    capturedDataUrl = camCanvas.toDataURL("image/jpeg", 0.85);
-    camSnapshot.src = capturedDataUrl;
-    camSnapshot.classList.remove("hidden");
-    camVideo.classList.add("hidden");
-    snapBtn.classList.add("hidden");
-    retakeBtn.classList.remove("hidden");
-    if (camStream) camStream.getTracks().forEach(t => t.stop());
-    sounds.chip();
-  });
-
-  retakeBtn.addEventListener("click", () => {
-    capturedDataUrl = null;
-    camSnapshot.classList.add("hidden");
-    retakeBtn.classList.add("hidden");
-    startCamBtn.classList.remove("hidden");
-  });
-
-  // ============================================================
   // SIGNUP
   // ============================================================
   document.getElementById("signupBtn").addEventListener("click", async () => {
@@ -650,9 +698,6 @@
     if (password.length < 6) {
       msg.textContent = "Password kam az kam 6 harf ka ho."; msg.className = "status-msg status-err"; return;
     }
-    if (!capturedDataUrl) {
-      msg.textContent = "Barah-e-meherbani chehre ki tasveer khenchein."; msg.className = "status-msg status-err"; return;
-    }
 
     document.getElementById("signupBtn").disabled = true;
     msg.textContent = "Darkhwast bheji ja rahi hai..."; msg.className = "status-msg";
@@ -661,13 +706,8 @@
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       const uid = cred.user.uid;
 
-      const photoPath = `faceVerifications/${uid}.jpg`;
-      const sRef = storageRef(storage, photoPath);
-      await uploadString(sRef, capturedDataUrl, "data_url");
-      const photoURL = await getDownloadURL(sRef);
-
       await setDoc(doc(db, "users", uid), {
-        name, email, mobile, photoURL,
+        name, email, mobile,
         status: "pending",
         role: "player",
         coins: 0,
@@ -722,6 +762,7 @@
   // ============================================================
   [document.getElementById("logoutBtn"), document.getElementById("pendingLogoutBtn"), document.getElementById("rejectedLogoutBtn")]
     .forEach(btn => btn.addEventListener("click", async () => {
+      unsubscribeAllChatListeners();
       await signOut(auth);
       showToast("Aap logout ho gaye.", "info");
     }));
@@ -736,6 +777,7 @@
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       currentUser = null; userData = null; displayedCoins = 0;
+      unsubscribeAllChatListeners();
       showScreen("auth");
       return;
     }
@@ -761,6 +803,7 @@
       updateBonusButton();
       loadLeaderboard();
       loadHistory();
+      subscribePlayerChatBadge();
     } else if (userData.status === "rejected") {
       showScreen("rejected");
     } else {
@@ -1125,12 +1168,6 @@
         row.className = "admin-user-row";
 
         // Build safely with DOM APIs to avoid XSS
-        if (u.photoURL) {
-          const img = document.createElement("img");
-          img.src = u.photoURL;
-          img.alt = "Face verification photo";
-          row.appendChild(img);
-        }
         const nameDiv = document.createElement("div");
         nameDiv.className = "row-name";
         nameDiv.textContent = u.name || "—";
@@ -1184,6 +1221,388 @@
       showToast("Action fail hua.", "error");
     }
   }
+
+  // ============================================================
+  // SUPPORT CHAT (player <-> admin)
+  // ============================================================
+  // Firestore layout:
+  //   chats/{playerUid}                -> { userName, lastMessage, lastMessageAt,
+  //                                          lastSenderRole, unreadByAdmin, unreadByUser }
+  //   chats/{playerUid}/messages/{id}   -> { text, imageUrl, senderId, senderRole, timestamp }
+  // Storage layout:
+  //   chatImages/{playerUid}/{timestamp}_{filename}
+
+  let playerChatMsgUnsub = null;
+  let playerChatBadgeUnsub = null;
+  let adminChatsListUnsub = null;
+  let adminChatThreadUnsub = null;
+  let pendingChatImageFile = null;       // player's selected screenshot
+  let pendingAdminChatImageFile = null;  // admin's selected screenshot
+  let currentAdminChatUid = null;        // which player's thread admin has open
+
+  function unsubscribeAllChatListeners(){
+    if (playerChatMsgUnsub) { playerChatMsgUnsub(); playerChatMsgUnsub = null; }
+    if (playerChatBadgeUnsub) { playerChatBadgeUnsub(); playerChatBadgeUnsub = null; }
+    if (adminChatsListUnsub) { adminChatsListUnsub(); adminChatsListUnsub = null; }
+    if (adminChatThreadUnsub) { adminChatThreadUnsub(); adminChatThreadUnsub = null; }
+  }
+
+  function formatChatTime(ts){
+    if (!ts) return "";
+    const d = ts.toMillis ? new Date(ts.toMillis()) : new Date(ts);
+    return d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function renderChatBubble(container, msg, mine){
+    const bubble = document.createElement("div");
+    bubble.className = `chat-bubble ${mine ? "mine" : "theirs"}`;
+
+    const label = document.createElement("div");
+    label.className = "sender-label";
+    label.textContent = msg.senderRole === "admin" ? "Admin" : (mine ? "Aap" : "Player");
+    bubble.appendChild(label);
+
+    if (msg.text) {
+      const textDiv = document.createElement("div");
+      textDiv.textContent = msg.text;
+      textDiv.style.whiteSpace = "pre-wrap";
+      bubble.appendChild(textDiv);
+    }
+    if (msg.imageUrl) {
+      const img = document.createElement("img");
+      img.src = msg.imageUrl;
+      img.alt = "screenshot";
+      img.addEventListener("click", () => window.open(msg.imageUrl, "_blank"));
+      bubble.appendChild(img);
+    }
+    const timeDiv = document.createElement("div");
+    timeDiv.className = "msg-time";
+    timeDiv.textContent = formatChatTime(msg.timestamp);
+    bubble.appendChild(timeDiv);
+
+    container.appendChild(bubble);
+  }
+
+  async function uploadChatImage(chatId, file){
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+      throw new Error("TOO_LARGE");
+    }
+    const path = `chatImages/${chatId}/${Date.now()}_${file.name}`;
+    const fileRef = storageRef(storage, path);
+    await uploadBytes(fileRef, file);
+    return await getDownloadURL(fileRef);
+  }
+
+  async function sendChatMessage({ chatId, text, imageFile, senderRole, userNameForChat }){
+    let imageUrl = null;
+    if (imageFile) {
+      imageUrl = await uploadChatImage(chatId, imageFile);
+    }
+    await addDoc(collection(db, "chats", chatId, "messages"), {
+      text: text || "",
+      imageUrl: imageUrl,
+      senderId: currentUser.uid,
+      senderRole,
+      timestamp: serverTimestamp()
+    });
+
+    const preview = text ? text.slice(0, 60) : "📷 Screenshot";
+    const chatDocData = {
+      lastMessage: preview,
+      lastMessageAt: serverTimestamp(),
+      lastSenderRole: senderRole,
+      unreadByAdmin: senderRole === "player",
+      unreadByUser: senderRole === "admin"
+    };
+    if (userNameForChat) chatDocData.userName = userNameForChat;
+
+    await setDoc(doc(db, "chats", chatId), chatDocData, { merge: true });
+  }
+
+  // ---------------- PLAYER SIDE ----------------
+
+  function subscribePlayerChatBadge(){
+    if (!currentUser) return;
+    if (playerChatBadgeUnsub) playerChatBadgeUnsub();
+    playerChatBadgeUnsub = onSnapshot(doc(db, "chats", currentUser.uid), (snap) => {
+      const dot = document.getElementById("chatUnreadDot");
+      if (snap.exists() && snap.data().unreadByUser) {
+        dot.classList.remove("hidden");
+      } else {
+        dot.classList.add("hidden");
+      }
+    });
+  }
+
+  function openPlayerChat(){
+    if (!currentUser || !userData) return;
+    showScreen("chat");
+    clearChatAttachPreview(false);
+
+    const messagesEl = document.getElementById("chatMessages");
+    const emptyEl = document.getElementById("chatEmpty");
+    messagesEl.innerHTML = "";
+
+    if (playerChatMsgUnsub) playerChatMsgUnsub();
+    const q = query(
+      collection(db, "chats", currentUser.uid, "messages"),
+      orderBy("timestamp", "asc"),
+      limit(200)
+    );
+    playerChatMsgUnsub = onSnapshot(q, (snap) => {
+      messagesEl.innerHTML = "";
+      if (snap.empty) {
+        emptyEl.classList.remove("hidden");
+      } else {
+        emptyEl.classList.add("hidden");
+        snap.forEach((d) => {
+          const msg = d.data();
+          renderChatBubble(messagesEl, msg, msg.senderRole === "player");
+        });
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+    });
+
+    // Mark as read by user (clears admin-reply badge)
+    setDoc(doc(db, "chats", currentUser.uid), { unreadByUser: false }, { merge: true }).catch(() => {});
+  }
+
+  document.getElementById("openChatBtn").addEventListener("click", openPlayerChat);
+
+  document.getElementById("chatBackBtn").addEventListener("click", () => {
+    if (playerChatMsgUnsub) { playerChatMsgUnsub(); playerChatMsgUnsub = null; }
+    clearChatAttachPreview(false);
+    showScreen("game");
+  });
+
+  function clearChatAttachPreview(isAdmin){
+    if (isAdmin) {
+      pendingAdminChatImageFile = null;
+      document.getElementById("adminChatImageInput").value = "";
+      document.getElementById("adminChatAttachPreview").classList.add("hidden");
+    } else {
+      pendingChatImageFile = null;
+      document.getElementById("chatImageInput").value = "";
+      document.getElementById("chatAttachPreview").classList.add("hidden");
+    }
+  }
+
+  document.getElementById("chatAttachBtn").addEventListener("click", () => {
+    document.getElementById("chatImageInput").click();
+  });
+  document.getElementById("chatImageInput").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+      showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
+      e.target.value = "";
+      return;
+    }
+    pendingChatImageFile = file;
+    document.getElementById("chatAttachName").textContent = `📷 ${file.name}`;
+    document.getElementById("chatAttachPreview").classList.remove("hidden");
+  });
+  document.getElementById("chatAttachRemove").addEventListener("click", () => clearChatAttachPreview(false));
+
+  async function handleSendPlayerChat(){
+    const textEl = document.getElementById("chatTextInput");
+    const text = textEl.value.trim();
+    if (!text && !pendingChatImageFile) return;
+    const sendBtn = document.getElementById("chatSendBtn");
+    sendBtn.disabled = true;
+    try {
+      await sendChatMessage({
+        chatId: currentUser.uid,
+        text,
+        imageFile: pendingChatImageFile,
+        senderRole: "player",
+        userNameForChat: userData.name || "Player"
+      });
+      textEl.value = "";
+      clearChatAttachPreview(false);
+    } catch (err) {
+      console.error(err);
+      if (err.message === "TOO_LARGE") {
+        showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
+      } else {
+        showToast("Paigham bhejne mein masla aaya.", "error");
+      }
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  document.getElementById("chatSendBtn").addEventListener("click", handleSendPlayerChat);
+  document.getElementById("chatTextInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendPlayerChat();
+    }
+  });
+
+  // ---------------- ADMIN SIDE ----------------
+
+  document.getElementById("adminTabRequests").addEventListener("click", () => {
+    document.getElementById("adminTabRequests").classList.add("active");
+    document.getElementById("adminTabChats").classList.remove("active");
+    document.getElementById("adminRequestsPanel").classList.remove("hidden");
+    document.getElementById("adminChatsPanel").classList.add("hidden");
+  });
+
+  document.getElementById("adminTabChats").addEventListener("click", () => {
+    document.getElementById("adminTabChats").classList.add("active");
+    document.getElementById("adminTabRequests").classList.remove("active");
+    document.getElementById("adminChatsPanel").classList.remove("hidden");
+    document.getElementById("adminRequestsPanel").classList.add("hidden");
+    showAdminChatsList();
+  });
+
+  function showAdminChatsList(){
+    document.getElementById("adminChatsListView").classList.remove("hidden");
+    document.getElementById("adminChatThreadView").classList.add("hidden");
+    if (adminChatThreadUnsub) { adminChatThreadUnsub(); adminChatThreadUnsub = null; }
+    currentAdminChatUid = null;
+    subscribeAdminChatsList();
+  }
+
+  function subscribeAdminChatsList(){
+    if (adminChatsListUnsub) adminChatsListUnsub();
+    const listEl = document.getElementById("adminChatsList");
+    const emptyEl = document.getElementById("adminChatsEmpty");
+    const q = query(collection(db, "chats"), orderBy("lastMessageAt", "desc"));
+    adminChatsListUnsub = onSnapshot(q, (snap) => {
+      listEl.innerHTML = "";
+      let anyUnread = false;
+      if (snap.empty) {
+        emptyEl.classList.remove("hidden");
+      } else {
+        emptyEl.classList.add("hidden");
+        snap.forEach((d) => {
+          const c = d.data();
+          const uid = d.id;
+          if (c.unreadByAdmin) anyUnread = true;
+          const row = document.createElement("div");
+          row.className = "admin-chat-row";
+
+          const left = document.createElement("div");
+          const nameDiv = document.createElement("div");
+          nameDiv.className = "chat-row-name";
+          nameDiv.textContent = c.userName || "Player";
+          if (c.unreadByAdmin) {
+            const dot = document.createElement("span");
+            dot.className = "unread-dot";
+            nameDiv.appendChild(dot);
+          }
+          const previewDiv = document.createElement("div");
+          previewDiv.className = "chat-row-preview";
+          previewDiv.textContent = c.lastMessage || "";
+          left.appendChild(nameDiv);
+          left.appendChild(previewDiv);
+          row.appendChild(left);
+
+          row.addEventListener("click", () => openAdminChatThread(uid, c.userName || "Player"));
+          listEl.appendChild(row);
+        });
+      }
+      const badge = document.getElementById("adminChatUnreadDot");
+      anyUnread ? badge.classList.remove("hidden") : badge.classList.add("hidden");
+    });
+  }
+
+  function openAdminChatThread(uid, name){
+    currentAdminChatUid = uid;
+    document.getElementById("adminChatsListView").classList.add("hidden");
+    document.getElementById("adminChatThreadView").classList.remove("hidden");
+    document.getElementById("adminChatThreadTitle").textContent = name;
+    clearChatAttachPreview(true);
+
+    const messagesEl = document.getElementById("adminChatMessages");
+    messagesEl.innerHTML = "";
+
+    if (adminChatThreadUnsub) adminChatThreadUnsub();
+    const q = query(
+      collection(db, "chats", uid, "messages"),
+      orderBy("timestamp", "asc"),
+      limit(200)
+    );
+    adminChatThreadUnsub = onSnapshot(q, (snap) => {
+      messagesEl.innerHTML = "";
+      snap.forEach((d) => {
+        const msg = d.data();
+        renderChatBubble(messagesEl, msg, msg.senderRole === "admin");
+      });
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    });
+
+    setDoc(doc(db, "chats", uid), { unreadByAdmin: false }, { merge: true }).catch(() => {});
+  }
+
+  document.getElementById("adminChatBackBtn").addEventListener("click", () => {
+    showAdminChatsList();
+  });
+
+  document.getElementById("adminChatAttachBtn").addEventListener("click", () => {
+    document.getElementById("adminChatImageInput").click();
+  });
+  document.getElementById("adminChatImageInput").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+      showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
+      e.target.value = "";
+      return;
+    }
+    pendingAdminChatImageFile = file;
+    document.getElementById("adminChatAttachName").textContent = `📷 ${file.name}`;
+    document.getElementById("adminChatAttachPreview").classList.remove("hidden");
+  });
+  document.getElementById("adminChatAttachRemove").addEventListener("click", () => clearChatAttachPreview(true));
+
+  async function handleSendAdminChat(){
+    if (!currentAdminChatUid) return;
+    const textEl = document.getElementById("adminChatTextInput");
+    const text = textEl.value.trim();
+    if (!text && !pendingAdminChatImageFile) return;
+    const sendBtn = document.getElementById("adminChatSendBtn");
+    sendBtn.disabled = true;
+    try {
+      await sendChatMessage({
+        chatId: currentAdminChatUid,
+        text,
+        imageFile: pendingAdminChatImageFile,
+        senderRole: "admin"
+      });
+      textEl.value = "";
+      clearChatAttachPreview(true);
+    } catch (err) {
+      console.error(err);
+      if (err.message === "TOO_LARGE") {
+        showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
+      } else {
+        showToast("Paigham bhejne mein masla aaya.", "error");
+      }
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+  document.getElementById("adminChatSendBtn").addEventListener("click", handleSendAdminChat);
+  document.getElementById("adminChatTextInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendAdminChat();
+    }
+  });
+
+  // Reset admin screen to "Darkhwastein" tab + subscribe chat badge whenever admin panel opens
+  document.getElementById("openAdminBtn").addEventListener("click", () => {
+    if (!userData || userData.role !== "admin") return;
+    document.getElementById("adminTabRequests").click();
+    subscribeAdminChatsList(); // keep badge live even on requests tab
+  });
+
+  document.getElementById("adminExitBtn").addEventListener("click", () => {
+    if (adminChatsListUnsub) { adminChatsListUnsub(); adminChatsListUnsub = null; }
+    if (adminChatThreadUnsub) { adminChatThreadUnsub(); adminChatThreadUnsub = null; }
+  });
 
   // ============================================================
   // INIT
