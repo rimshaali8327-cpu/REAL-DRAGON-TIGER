@@ -196,6 +196,42 @@
   .history-list .h-tie{color:var(--gold-bright);}
   .history-empty{font-size:12px;color:var(--muted);text-align:center;padding:14px;}
 
+  /* ---------- Demo wallet (simulation) ---------- */
+  .wallet-tabs{display:flex;gap:6px;margin-bottom:12px;}
+  .wallet-tab{flex:1;padding:8px;background:transparent;border:1px solid rgba(201,162,39,.25);
+    color:var(--muted);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.04em;border-radius:4px;cursor:pointer;}
+  .wallet-tab.active{background:rgba(201,162,39,.12);color:var(--gold-bright);border-color:var(--gold);}
+  .wallet-note{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+  .conv-preview{font-size:12px;color:var(--jade-bright);margin:-6px 0 10px;min-height:16px;}
+  .req-row{border:1px solid rgba(201,162,39,.15);border-radius:5px;padding:10px;margin-bottom:8px;font-size:12px;background:#0f0806;}
+  .req-row .req-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .req-row .req-meta{color:var(--muted);font-size:11px;line-height:1.6;}
+
+  /* ---------- Chat ---------- */
+  .chat-msgs{list-style:none;max-height:320px;min-height:140px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;
+    background:#0f0806;border:1px solid rgba(201,162,39,.2);border-radius:6px;padding:10px;margin-bottom:10px;}
+  .chat-bubble{max-width:82%;padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.5;word-wrap:break-word;}
+  .chat-bubble .chat-sender{font-size:10px;color:var(--muted);margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.04em;}
+  .chat-bubble .chat-time{font-size:9.5px;color:var(--muted);margin-top:4px;text-align:right;}
+  .chat-mine{align-self:flex-end;background:rgba(201,162,39,.15);border:1px solid rgba(201,162,39,.35);}
+  .chat-theirs{align-self:flex-start;background:#1a0f0c;border:1px solid rgba(201,162,39,.15);}
+  .chat-bubble img{max-width:180px;border-radius:4px;display:block;margin-top:4px;border:1px solid rgba(201,162,39,.3);}
+  .chat-input-row{display:flex;gap:6px;margin-bottom:10px;}
+  .chat-input-row input[type=text]{flex:1;padding:10px;border-radius:4px;background:#0f0806;
+    border:1px solid rgba(201,162,39,.3);color:var(--ivory);font-size:13px;font-family:'Noto Sans',sans-serif;min-width:0;}
+  .chat-input-row input[type=text]:focus{outline:none;border-color:var(--gold);}
+  .chat-attach-btn{width:44px;flex:none;border-radius:4px;border:1px solid rgba(201,162,39,.35);
+    background:transparent;color:var(--gold-bright);font-size:16px;cursor:pointer;}
+  .chat-send-btn{flex:none;padding:10px 14px;border-radius:4px;border:none;
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;
+    font-family:'Cinzel',serif;font-weight:600;font-size:12px;cursor:pointer;}
+  .chat-img-preview{max-width:120px;max-height:90px;border-radius:4px;margin-bottom:8px;border:1px solid var(--gold);display:block;}
+  .chat-empty{color:var(--muted);font-size:12px;text-align:center;padding:20px;margin:auto;}
+  .chat-user-row{display:flex;justify-content:space-between;align-items:center;gap:8px;
+    border:1px solid rgba(201,162,39,.15);border-radius:5px;padding:9px 12px;margin-bottom:6px;
+    font-size:13px;background:#0f0806;}
+  .chat-user-row .btn{width:auto;padding:7px 12px;font-size:11px;}
+
   .leaderboard{margin-top:16px;}
   .leaderboard h3{font-size:13px;color:var(--gold-bright);margin-bottom:10px;letter-spacing:.04em;}
   #leaderboardList{list-style:none;font-size:13px;}
@@ -255,60 +291,6 @@
   ::-webkit-scrollbar{width:6px;}
   ::-webkit-scrollbar-track{background:#0f0806;}
   ::-webkit-scrollbar-thumb{background:rgba(201,162,39,.4);border-radius:3px;}
-
-  /* ---------- Chat ---------- */
-  .unread-dot{width:8px;height:8px;border-radius:50%;background:var(--danger);display:inline-block;margin-left:6px;vertical-align:middle;}
-  .chat-shell{display:flex;flex-direction:column;}
-  .chat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
-  .chat-header h2{color:var(--gold-bright);font-size:15px;}
-  .chat-messages{
-    height:360px;overflow-y:auto;padding:6px 4px;
-    display:flex;flex-direction:column;gap:10px;
-    background:#0f0806;border:1px solid rgba(201,162,39,.15);border-radius:6px;
-  }
-  .chat-empty{text-align:center;color:var(--muted);font-size:12px;padding:30px 10px;}
-  .chat-bubble{max-width:78%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5;word-wrap:break-word;}
-  .chat-bubble.mine{align-self:flex-end;background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#241304;border-bottom-right-radius:2px;}
-  .chat-bubble.theirs{align-self:flex-start;background:#1a0f0c;border:1px solid rgba(201,162,39,.25);color:var(--ivory);border-bottom-left-radius:2px;}
-  .chat-bubble .sender-label{font-size:10px;opacity:.75;margin-bottom:3px;font-family:'Cinzel',serif;letter-spacing:.05em;display:flex;align-items:center;gap:5px;}
-  .admin-badge{
-    display:inline-flex;align-items:center;gap:3px;
-    background:rgba(63,156,129,.18);color:var(--jade-bright);
-    border:1px solid rgba(63,156,129,.5);border-radius:10px;
-    padding:1px 7px;font-size:9px;letter-spacing:.04em;font-weight:700;
-    font-family:'Noto Sans',sans-serif;
-  }
-  .chat-bubble img{max-width:100%;border-radius:6px;margin-top:6px;cursor:pointer;display:block;}
-  .chat-bubble .msg-time{font-size:9.5px;opacity:.65;margin-top:4px;text-align:right;}
-  .chat-attach-preview{font-size:11px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:8px;}
-  .chat-attach-preview button{background:none;border:none;color:#e08066;cursor:pointer;font-size:13px;}
-  .chat-input-row{display:flex;gap:8px;margin-top:10px;align-items:flex-end;}
-  .chat-input-row textarea{
-    flex:1;resize:none;min-height:42px;max-height:90px;padding:10px 12px;border-radius:4px;
-    background:#0f0806;border:1px solid rgba(201,162,39,.3);color:var(--ivory);
-    font-family:'Noto Sans',sans-serif;font-size:13px;
-  }
-  .chat-input-row textarea:focus{outline:none;border-color:var(--gold);}
-  .chat-attach-btn{
-    width:42px;height:42px;border-radius:4px;background:transparent;
-    border:1px solid rgba(201,162,39,.35);color:var(--gold-bright);
-    font-size:17px;cursor:pointer;flex-shrink:0;
-  }
-  .chat-attach-btn:hover{border-color:var(--gold);}
-  .chat-send-btn{width:50px;height:42px;flex-shrink:0;padding:0;}
-
-  /* ---------- Admin chat list ---------- */
-  .admin-chat-row{
-    display:flex;justify-content:space-between;align-items:center;gap:8px;
-    border:1px solid rgba(201,162,39,.2);border-radius:5px;padding:12px;
-    margin-bottom:8px;cursor:pointer;transition:.15s ease;
-  }
-  .admin-chat-row:hover{border-color:var(--gold);}
-  .admin-chat-row .chat-row-name{color:var(--gold-bright);font-weight:600;font-size:13px;margin-bottom:3px;}
-  .admin-chat-row .chat-row-preview{
-    color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;
-    text-overflow:ellipsis;max-width:220px;
-  }
 </style>
 </head>
 <body>
@@ -447,6 +429,38 @@
 
     <div class="hairline"></div>
 
+    <section class="wallet">
+      <h3 style="font-size:13px;color:var(--gold-bright);margin-bottom:10px;letter-spacing:.04em;">💳 Demo Wallet (Simulation)</h3>
+      <p class="wallet-note">⚠️ Yeh sirf seekhne ke liye nakli workflow hai — koi asli paisa ya crypto involve nahi. Rate: 1 demo dollar = 200 coins. Admin 24 ghante ke andar review karta hai.</p>
+      <div class="wallet-tabs">
+        <button class="wallet-tab active" id="wTabDeposit">Deposit</button>
+        <button class="wallet-tab" id="wTabWithdraw">Withdraw</button>
+        <button class="wallet-tab" id="wTabRequests">Meri Requests</button>
+      </div>
+
+      <div id="wPaneDeposit">
+        <div class="field"><label>Demo Dollars</label><input type="number" id="depDollars" min="1" step="1" value="1" /></div>
+        <p class="conv-preview" id="depPreview">= 200 coins</p>
+        <div class="field"><label>Demo Wallet Address</label><input type="text" id="depWallet" placeholder="0x... (nakli address)" /></div>
+        <div class="field"><label>Demo Transaction ID (TxID)</label><input type="text" id="depTxId" placeholder="TX-123456" /></div>
+        <button class="btn btn-jade" id="depSubmitBtn">Deposit Request Bhejein</button>
+      </div>
+
+      <div id="wPaneWithdraw" class="hidden">
+        <div class="field"><label>Coins</label><input type="number" id="wdCoins" min="200" step="200" value="200" /></div>
+        <p class="conv-preview" id="wdPreview">= 1.00 demo dollars</p>
+        <div class="field"><label>Demo Wallet Address</label><input type="text" id="wdWallet" placeholder="0x... (nakli address)" /></div>
+        <button class="btn btn-outline" id="wdSubmitBtn">Withdraw Request Bhejein</button>
+      </div>
+
+      <div id="wPaneRequests" class="hidden">
+        <ul class="history-list" id="myRequestsList" style="max-height:220px;"></ul>
+        <p class="history-empty hidden" id="myRequestsEmpty">Abhi koi request nahi bheji gayi.</p>
+      </div>
+    </section>
+
+    <div class="hairline"></div>
+
     <section class="leaderboard">
       <h3>🏆 Sar Fehrist (Top 10)</h3>
       <ol id="leaderboardList"></ol>
@@ -456,79 +470,57 @@
 
     <div class="foot-row">
       <button class="link-btn" id="logoutBtn">Logout</button>
-      <button class="link-btn" id="openChatBtn">💬 Madad Chat<span class="unread-dot hidden" id="chatUnreadDot"></span></button>
+      <button class="link-btn" id="openChatBtn">💬 Admin se Baat Karein</button>
       <button class="link-btn hidden" id="openAdminBtn">Admin Panel</button>
     </div>
   </section>
 
-  <!-- ============ SUPPORT CHAT SCREEN (PLAYER) ============ -->
+  <!-- ============ CHAT SCREEN (USER) ============ -->
   <section id="chatScreen" class="frame hidden">
     <span class="corner-tr"></span><span class="corner-bl"></span>
-    <div class="chat-shell">
-      <div class="chat-header">
-        <h2>💬 Admin Se Madad</h2>
-        <button class="link-btn" id="chatBackBtn">← Wapas</button>
-      </div>
-      <div class="chat-messages" id="chatMessages"></div>
-      <p class="chat-empty hidden" id="chatEmpty">Abhi koi paigham nahi. Apna masla neeche likh kar bhejein, ya screenshot attach karein.</p>
-      <div class="chat-attach-preview hidden" id="chatAttachPreview">
-        <span id="chatAttachName"></span>
-        <button id="chatAttachRemove" type="button">✕ Hatayein</button>
-      </div>
-      <div class="chat-input-row">
-        <input type="file" id="chatImageInput" accept="image/*" class="hidden" />
-        <button class="chat-attach-btn" id="chatAttachBtn" type="button" title="Screenshot bhejein">📎</button>
-        <textarea id="chatTextInput" placeholder="Apna masla likhein..."></textarea>
-        <button class="btn btn-gold chat-send-btn" id="chatSendBtn" type="button">➤</button>
-      </div>
+    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:6px;">💬 Admin se Baat Karein</h2>
+    <p class="wallet-note">Messages aur tasveerein sirf 7 din tak rehti hain, uske baad khud-ba-khud delete ho jati hain.</p>
+    <ul class="chat-msgs" id="userChatMessages"></ul>
+    <img id="userChatPreview" class="chat-img-preview hidden" alt="preview" />
+    <input type="file" id="userChatImage" accept="image/*" class="hidden" />
+    <div class="chat-input-row">
+      <button class="chat-attach-btn" id="userChatAttachBtn" title="Tasveer bhejein">📷</button>
+      <input type="text" id="userChatInput" placeholder="Message likhein..." maxlength="1000" />
+      <button class="chat-send-btn" id="userChatSendBtn">Bhejein</button>
     </div>
+    <button class="link-btn" id="chatBackBtn">← Wapas Khel Mein</button>
   </section>
 
   <!-- ============ ADMIN SCREEN ============ -->
   <section id="adminScreen" class="frame hidden">
     <span class="corner-tr"></span><span class="corner-bl"></span>
+    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:14px;">Zair-e-Ghor Darkhwastein</h2>
+    <div id="adminList"></div>
+    <p id="adminEmpty" class="capture-note hidden">Koi zair-e-ghor darkhwast nahi hai.</p>
 
-    <div class="tabs">
-      <button class="tab-btn active" id="adminTabRequests">Darkhwastein</button>
-      <button class="tab-btn" id="adminTabChats">Chat Support<span class="unread-dot hidden" id="adminChatUnreadDot"></span></button>
-    </div>
+    <div class="hairline"></div>
+    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:6px;">💳 Wallet Requests (Demo)</h2>
+    <p class="wallet-note">Approve karne par coins user ke balance mein add/deduct honge (1 demo dollar = 200 coins).</p>
+    <div id="adminWalletList"></div>
+    <p id="adminWalletEmpty" class="capture-note hidden">Koi pending wallet request nahi.</p>
 
-    <!-- REQUESTS PANEL -->
-    <div id="adminRequestsPanel">
-      <div id="adminList"></div>
-      <p id="adminEmpty" class="capture-note hidden">Koi zair-e-ghor darkhwast nahi hai.</p>
-    </div>
+    <div class="hairline"></div>
+    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:6px;">💬 User Chats</h2>
+    <p class="wallet-note">Chat 7 din baad khud-ba-khud delete ho jati hai. Tasveerein choti (compressed) ho kar Firestore mein mehfooz hoti hain.</p>
+    <div id="adminChatUsers"></div>
+    <p id="adminChatUsersEmpty" class="capture-note hidden">Koi approved user nahi.</p>
 
-    <!-- CHAT SUPPORT PANEL -->
-    <div id="adminChatsPanel" class="hidden">
-
-      <!-- Chat list view -->
-      <div id="adminChatsListView">
-        <div id="adminChatsList"></div>
-        <p id="adminChatsEmpty" class="capture-note hidden">Abhi koi player ne chat nahi ki.</p>
+    <div id="adminChatBox" class="hidden" style="margin-top:12px;">
+      <h3 style="font-size:13px;color:var(--gold-bright);margin-bottom:8px;" id="adminChatTitle">Chat</h3>
+      <ul class="chat-msgs" id="adminChatMessages"></ul>
+      <img id="adminChatPreview" class="chat-img-preview hidden" alt="preview" />
+      <input type="file" id="adminChatImage" accept="image/*" class="hidden" />
+      <div class="chat-input-row">
+        <button class="chat-attach-btn" id="adminChatAttachBtn" title="Tasveer bhejein">📷</button>
+        <input type="text" id="adminChatInput" placeholder="Message likhein..." maxlength="1000" />
+        <button class="chat-send-btn" id="adminChatSendBtn">Bhejein</button>
       </div>
-
-      <!-- Chat thread view -->
-      <div id="adminChatThreadView" class="hidden">
-        <div class="chat-shell">
-          <div class="chat-header">
-            <h2 id="adminChatThreadTitle">Player</h2>
-            <button class="link-btn" id="adminChatBackBtn">← List Mein Wapas</button>
-          </div>
-          <div class="chat-messages" id="adminChatMessages"></div>
-          <div class="chat-attach-preview hidden" id="adminChatAttachPreview">
-            <span id="adminChatAttachName"></span>
-            <button id="adminChatAttachRemove" type="button">✕ Hatayein</button>
-          </div>
-          <div class="chat-input-row">
-            <input type="file" id="adminChatImageInput" accept="image/*" class="hidden" />
-            <button class="chat-attach-btn" id="adminChatAttachBtn" type="button" title="Screenshot bhejein">📎</button>
-            <textarea id="adminChatTextInput" placeholder="Jawab likhein..."></textarea>
-            <button class="btn btn-gold chat-send-btn" id="adminChatSendBtn" type="button">➤</button>
-          </div>
-        </div>
-      </div>
-
+      <button class="link-btn" id="adminChatCloseBtn">Chat Band Karein</button>
     </div>
 
     <div class="hairline"></div>
@@ -544,13 +536,10 @@
     signOut, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, setDoc, updateDoc, addDoc,
+    getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, deleteDoc,
     collection, query, where, orderBy, limit, getDocs, onSnapshot,
     serverTimestamp, increment, runTransaction, Timestamp
   } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-  import {
-    getStorage, ref as storageRef, uploadBytes, getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 
   // ============================================================
   // CONFIG & CONSTANTS
@@ -568,7 +557,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const storage = getStorage(app);
 
   const STARTING_COINS = 1000;
   const DAILY_BONUS_COINS = 200;
@@ -577,7 +565,6 @@
   const TIE_PAYOUT = 8;
   const NORMAL_PAYOUT = 2;
   const HISTORY_LIMIT = 20;
-  const MAX_IMAGE_MB = 5;
 
   // ============================================================
   // UTILITIES
@@ -662,8 +649,8 @@
     pending: document.getElementById("pendingScreen"),
     rejected: document.getElementById("rejectedScreen"),
     game: document.getElementById("gameScreen"),
-    admin: document.getElementById("adminScreen"),
     chat: document.getElementById("chatScreen"),
+    admin: document.getElementById("adminScreen"),
   };
   function showScreen(name){
     Object.values(screens).forEach(s => s.classList.add("hidden"));
@@ -769,7 +756,6 @@
   // ============================================================
   [document.getElementById("logoutBtn"), document.getElementById("pendingLogoutBtn"), document.getElementById("rejectedLogoutBtn")]
     .forEach(btn => btn.addEventListener("click", async () => {
-      unsubscribeAllChatListeners();
       await signOut(auth);
       showToast("Aap logout ho gaye.", "info");
     }));
@@ -784,7 +770,7 @@
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       currentUser = null; userData = null; displayedCoins = 0;
-      unsubscribeAllChatListeners();
+      stopChat();
       showScreen("auth");
       return;
     }
@@ -810,7 +796,7 @@
       updateBonusButton();
       loadLeaderboard();
       loadHistory();
-      subscribePlayerChatBadge();
+      loadMyRequests();
     } else if (userData.status === "rejected") {
       showScreen("rejected");
     } else {
@@ -1101,6 +1087,468 @@
   }
 
   // ============================================================
+  // DEMO WALLET (simulation only — koi asli paisa shamil nahi)
+  // ============================================================
+  const COINS_PER_DEMO_DOLLAR = 200;
+  const WALLET_SLA_HOURS = 24;
+
+  const walletPanes = {
+    deposit: document.getElementById("wPaneDeposit"),
+    withdraw: document.getElementById("wPaneWithdraw"),
+    requests: document.getElementById("wPaneRequests"),
+  };
+  const walletTabs = {
+    deposit: document.getElementById("wTabDeposit"),
+    withdraw: document.getElementById("wTabWithdraw"),
+    requests: document.getElementById("wTabRequests"),
+  };
+  function showWalletPane(name){
+    Object.keys(walletPanes).forEach(k => {
+      walletPanes[k].classList.toggle("hidden", k !== name);
+      walletTabs[k].classList.toggle("active", k === name);
+    });
+    if (name === "requests") loadMyRequests();
+  }
+  walletTabs.deposit.addEventListener("click", () => showWalletPane("deposit"));
+  walletTabs.withdraw.addEventListener("click", () => showWalletPane("withdraw"));
+  walletTabs.requests.addEventListener("click", () => showWalletPane("requests"));
+
+  const depDollarsInput = document.getElementById("depDollars");
+  const wdCoinsInput = document.getElementById("wdCoins");
+  depDollarsInput.addEventListener("input", () => {
+    const d = Math.max(0, parseInt(depDollarsInput.value, 10) || 0);
+    document.getElementById("depPreview").textContent = `= ${d * COINS_PER_DEMO_DOLLAR} coins`;
+  });
+  wdCoinsInput.addEventListener("input", () => {
+    const c = Math.max(0, parseInt(wdCoinsInput.value, 10) || 0);
+    document.getElementById("wdPreview").textContent = `= ${(c / COINS_PER_DEMO_DOLLAR).toFixed(2)} demo dollars`;
+  });
+
+  document.getElementById("depSubmitBtn").addEventListener("click", async () => {
+    if (!currentUser || !userData) return;
+    const dollars = parseInt(depDollarsInput.value, 10) || 0;
+    const wallet = document.getElementById("depWallet").value.trim();
+    const txId = document.getElementById("depTxId").value.trim();
+    if (dollars < 1) { showToast("Kam az kam 1 demo dollar darj karein.", "error"); sounds.error(); return; }
+    if (wallet.length < 8) { showToast("Demo wallet address theek nahi lagta.", "error"); sounds.error(); return; }
+    if (!txId) { showToast("Demo Transaction ID (TxID) zaroori hai.", "error"); sounds.error(); return; }
+    try {
+      await addDoc(collection(db, "walletRequests"), {
+        uid: currentUser.uid,
+        userName: userData.name || "Player",
+        type: "deposit",
+        demoDollars: dollars,
+        coins: dollars * COINS_PER_DEMO_DOLLAR,
+        walletAddress: wallet.slice(0, 120),
+        txId: txId.slice(0, 120),
+        status: "pending",
+        createdAt: serverTimestamp()
+      });
+      depDollarsInput.value = 1; depDollarsInput.dispatchEvent(new Event("input"));
+      document.getElementById("depWallet").value = "";
+      document.getElementById("depTxId").value = "";
+      showToast("Deposit request bhej di gayi. Admin 24 ghante mein review kare ga.", "success");
+      showWalletPane("requests");
+    } catch (err) {
+      console.error(err);
+      showToast("Request bhejne mein masla aaya.", "error");
+      sounds.error();
+    }
+  });
+
+  document.getElementById("wdSubmitBtn").addEventListener("click", async () => {
+    if (!currentUser || !userData) return;
+    const coins = parseInt(wdCoinsInput.value, 10) || 0;
+    const wallet = document.getElementById("wdWallet").value.trim();
+    const balance = Number(userData.coins) || 0;
+    if (coins < COINS_PER_DEMO_DOLLAR) { showToast(`Kam az kam ${COINS_PER_DEMO_DOLLAR} coins (1 demo dollar) withdraw ho sakte hain.`, "error"); sounds.error(); return; }
+    if (coins % COINS_PER_DEMO_DOLLAR !== 0) { showToast(`Coins ${COINS_PER_DEMO_DOLLAR} ke poore hisaab mein hon.`, "error"); sounds.error(); return; }
+    if (coins > balance) { showToast("Aapke balance se zyada coins withdraw nahi ho sakte.", "error"); sounds.error(); return; }
+    if (wallet.length < 8) { showToast("Demo wallet address theek nahi lagta.", "error"); sounds.error(); return; }
+    try {
+      await addDoc(collection(db, "walletRequests"), {
+        uid: currentUser.uid,
+        userName: userData.name || "Player",
+        type: "withdraw",
+        demoDollars: coins / COINS_PER_DEMO_DOLLAR,
+        coins,
+        walletAddress: wallet.slice(0, 120),
+        txId: "",
+        status: "pending",
+        createdAt: serverTimestamp()
+      });
+      wdCoinsInput.value = 200; wdCoinsInput.dispatchEvent(new Event("input"));
+      document.getElementById("wdWallet").value = "";
+      showToast("Withdraw request bhej di gayi. Admin 24 ghante mein review kare ga.", "success");
+      showWalletPane("requests");
+    } catch (err) {
+      console.error(err);
+      showToast("Request bhejne mein masla aaya.", "error");
+      sounds.error();
+    }
+  });
+
+  function slaText(createdAt){
+    if (!createdAt || !createdAt.toMillis) return "";
+    const remaining = createdAt.toMillis() + WALLET_SLA_HOURS * 3600 * 1000 - Date.now();
+    if (remaining <= 0) return "Review ka waqt guzar gaya — admin se raabta karein.";
+    const hrs = Math.floor(remaining / 3600000);
+    const mins = Math.floor((remaining % 3600000) / 60000);
+    return `Admin ${hrs}h ${mins}m ke andar review kare ga.`;
+  }
+
+  function statusBadge(status){
+    const cls = status === "approved" ? "badge-approved" : (status === "rejected" ? "badge-rejected" : "badge-pending");
+    return `<span class="badge ${cls}">${escapeHtml(String(status || "pending").toUpperCase())}</span>`;
+  }
+
+  const myRequestsList = document.getElementById("myRequestsList");
+  const myRequestsEmpty = document.getElementById("myRequestsEmpty");
+
+  async function loadMyRequests(){
+    if (!currentUser) return;
+    try {
+      const q = query(collection(db, "walletRequests"), where("uid", "==", currentUser.uid));
+      const snap = await getDocs(q);
+      const reqs = [];
+      snap.forEach(d => reqs.push({ id: d.id, ...d.data() }));
+      reqs.sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0));
+      myRequestsList.innerHTML = "";
+      if (!reqs.length) { myRequestsEmpty.classList.remove("hidden"); return; }
+      myRequestsEmpty.classList.add("hidden");
+      reqs.slice(0, 10).forEach(r => {
+        const li = document.createElement("li");
+        li.style.display = "block";
+        const timeStr = r.createdAt?.toDate ? r.createdAt.toDate().toLocaleString() : "";
+        li.innerHTML = `
+          <div class="req-top">
+            <strong>${r.type === "deposit" ? "⬇️ Deposit" : "⬆️ Withdraw"} ${statusBadge(r.status)}</strong>
+          </div>
+          <div class="req-meta">
+            ${escapeHtml(r.demoDollars)} demo dollars · ${escapeHtml(r.coins)} coins<br/>
+            Wallet: ${escapeHtml(r.walletAddress || "—")}${r.txId ? `<br/>TxID: ${escapeHtml(r.txId)}` : ""}
+            ${r.status === "pending" ? `<br/>⏳ ${escapeHtml(slaText(r.createdAt))}` : (timeStr ? `<br/>${escapeHtml(timeStr)}` : "")}
+          </div>`;
+        myRequestsList.appendChild(li);
+      });
+    } catch (err) {
+      console.error("My requests load error:", err);
+    }
+  }
+
+  // ---------- Admin: wallet requests ----------
+  const adminWalletList = document.getElementById("adminWalletList");
+  const adminWalletEmpty = document.getElementById("adminWalletEmpty");
+
+  async function loadWalletRequests(){
+    adminWalletList.innerHTML = "";
+    try {
+      const q = query(collection(db, "walletRequests"), where("status", "==", "pending"));
+      const snap = await getDocs(q);
+      if (snap.empty) { adminWalletEmpty.classList.remove("hidden"); return; }
+      adminWalletEmpty.classList.add("hidden");
+      const reqs = [];
+      snap.forEach(d => reqs.push({ id: d.id, ...d.data() }));
+      reqs.sort((a, b) => (a.createdAt?.toMillis?.() ?? 0) - (b.createdAt?.toMillis?.() ?? 0));
+      reqs.forEach(r => {
+        const row = document.createElement("div");
+        row.className = "req-row";
+        row.innerHTML = `
+          <div class="req-top">
+            <strong>${r.type === "deposit" ? "⬇️ Deposit" : "⬆️ Withdraw"}</strong>
+            ${statusBadge(r.status)}
+          </div>
+          <div class="req-meta">
+            👤 ${escapeHtml(r.userName || "—")}<br/>
+            💵 ${escapeHtml(r.demoDollars)} demo dollars · 🪙 ${escapeHtml(r.coins)} coins<br/>
+            Wallet: ${escapeHtml(r.walletAddress || "—")}${r.txId ? `<br/>TxID: ${escapeHtml(r.txId)}` : ""}<br/>
+            ⏳ ${escapeHtml(slaText(r.createdAt))}
+          </div>`;
+        const actions = document.createElement("div");
+        actions.className = "admin-actions";
+        actions.style.marginTop = "8px";
+        const approveBtn = document.createElement("button");
+        approveBtn.className = "btn btn-jade";
+        approveBtn.textContent = "Approve (coins release)";
+        approveBtn.addEventListener("click", () => resolveWalletRequest(r, true));
+        const rejectBtn = document.createElement("button");
+        rejectBtn.className = "btn btn-danger";
+        rejectBtn.textContent = "Reject";
+        rejectBtn.addEventListener("click", () => resolveWalletRequest(r, false));
+        actions.appendChild(approveBtn); actions.appendChild(rejectBtn);
+        row.appendChild(actions);
+        adminWalletList.appendChild(row);
+      });
+    } catch (err) {
+      console.error("Wallet requests load error:", err);
+      showToast("Wallet requests load nahi ho sake.", "error");
+    }
+  }
+
+  async function resolveWalletRequest(r, approve){
+    if (!userData || userData.role !== "admin") return;
+    try {
+      const reqRef = doc(db, "walletRequests", r.id);
+      if (approve) {
+        const userRef = doc(db, "users", r.uid);
+        await runTransaction(db, async (tx) => {
+          const uSnap = await tx.get(userRef);
+          const rSnap = await tx.get(reqRef);
+          if (!uSnap.exists()) throw new Error("USER_MISSING");
+          if (!rSnap.exists() || rSnap.data().status !== "pending") throw new Error("ALREADY_RESOLVED");
+          const balance = Number(uSnap.data().coins) || 0;
+          if (r.type === "withdraw" && balance < r.coins) throw new Error("INSUFFICIENT");
+          const delta = r.type === "deposit" ? r.coins : -r.coins;
+          tx.update(userRef, { coins: increment(delta) });
+          tx.update(reqRef, { status: "approved", resolvedAt: serverTimestamp() });
+        });
+        showToast(r.type === "deposit"
+          ? `Deposit approve — ${r.coins} coins release ho gaye.`
+          : `Withdraw approve — ${r.coins} coins deduct ho gaye.`, "success");
+      } else {
+        await updateDoc(reqRef, { status: "rejected", resolvedAt: serverTimestamp() });
+        showToast("Request reject kar di gayi.", "info");
+      }
+      await loadWalletRequests();
+      if (r.uid === currentUser.uid) { await loadUserDoc(); renderPlayer(); loadMyRequests(); }
+    } catch (err) {
+      if (err.message === "INSUFFICIENT") showToast("User ke balance mein itne coins nahi — withdraw approve nahi ho saka.", "error");
+      else if (err.message === "ALREADY_RESOLVED") { showToast("Yeh request pehle hi resolve ho chuki hai.", "info"); loadWalletRequests(); }
+      else { console.error(err); showToast("Action fail hua.", "error"); }
+      sounds.error();
+    }
+  }
+
+  // ============================================================
+  // CHAT (user ↔ admin) — 7 din baad messages auto-delete
+  // ============================================================
+  const CHAT_RETENTION_DAYS = 7;
+  const MAX_IMAGE_CHARS = 900000; // Firestore doc ~1MB limit; base64 image isi mein count hoti hai
+
+  let chatUnsub = null;
+  let activeChannelId = null;
+
+  function stopChat(){
+    if (chatUnsub) { chatUnsub(); chatUnsub = null; }
+    activeChannelId = null;
+  }
+
+  function fileToCompressedDataUrl(file, maxDim = 640, quality = 0.7){
+    return new Promise((resolve, reject) => {
+      if (!file || !file.type || !file.type.startsWith("image/")) { reject(new Error("Sirf image file bheji ja sakti hai.")); return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL("image/jpeg", quality);
+          if (dataUrl.length > MAX_IMAGE_CHARS) { reject(new Error("Tasveer bohat bari hai — choti image bhejein.")); return; }
+          resolve(dataUrl);
+        };
+        img.onerror = () => reject(new Error("Tasveer load nahi ho saki."));
+        img.src = reader.result;
+      };
+      reader.onerror = () => reject(new Error("File parhne mein masla aaya."));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function cleanupOldMessages(channelId){
+    try {
+      const cutoff = Date.now() - CHAT_RETENTION_DAYS * 24 * 3600 * 1000;
+      const snap = await getDocs(query(collection(db, "chats"), where("channelId", "==", channelId)));
+      const expired = [];
+      snap.forEach(d => {
+        const c = d.data().createdAt;
+        if (c && c.toMillis && c.toMillis() < cutoff) expired.push(deleteDoc(d.ref));
+      });
+      if (expired.length) await Promise.all(expired);
+    } catch (err) {
+      console.error("Chat cleanup error:", err);
+    }
+  }
+
+  function renderChatMessages(listEl, msgs){
+    listEl.innerHTML = "";
+    if (!msgs.length) {
+      const p = document.createElement("p");
+      p.className = "chat-empty";
+      p.textContent = "Abhi koi message nahi. Pehla message bhejein!";
+      listEl.appendChild(p);
+      return;
+    }
+    msgs.forEach(m => {
+      const li = document.createElement("li");
+      const mine = currentUser && m.fromUid === currentUser.uid;
+      li.className = `chat-bubble ${mine ? "chat-mine" : "chat-theirs"}`;
+      const sender = document.createElement("div");
+      sender.className = "chat-sender";
+      sender.textContent = mine ? "Aap" : (m.fromName || "Player");
+      li.appendChild(sender);
+      if (m.text) {
+        const body = document.createElement("div");
+        body.textContent = m.text;
+        li.appendChild(body);
+      }
+      if (m.imageData && String(m.imageData).startsWith("data:image/")) {
+        const img = document.createElement("img");
+        img.src = m.imageData;
+        img.alt = "attached image";
+        li.appendChild(img);
+      }
+      const time = document.createElement("div");
+      time.className = "chat-time";
+      time.textContent = m.createdAt?.toDate ? m.createdAt.toDate().toLocaleString() : "bheja ja raha hai...";
+      li.appendChild(time);
+      listEl.appendChild(li);
+    });
+    listEl.scrollTop = listEl.scrollHeight;
+  }
+
+  function openChat(channelId, listEl){
+    stopChat();
+    activeChannelId = channelId;
+    cleanupOldMessages(channelId);
+    const q = query(collection(db, "chats"), where("channelId", "==", channelId));
+    chatUnsub = onSnapshot(q, (snap) => {
+      const msgs = [];
+      snap.forEach(d => msgs.push({ id: d.id, ...d.data() }));
+      msgs.sort((a, b) => (a.createdAt?.toMillis?.() ?? 0) - (b.createdAt?.toMillis?.() ?? 0));
+      renderChatMessages(listEl, msgs);
+    }, (err) => {
+      console.error("Chat snapshot error:", err);
+      showToast("Chat load nahi ho saki.", "error");
+    });
+  }
+
+  async function sendChatMessage(text, imageData){
+    if (!currentUser || !activeChannelId) return;
+    const trimmed = (text || "").trim().slice(0, 1000);
+    if (!trimmed && !imageData) return;
+    try {
+      await addDoc(collection(db, "chats"), {
+        channelId: activeChannelId,
+        fromUid: currentUser.uid,
+        fromName: (userData && userData.role === "admin") ? "Admin" : ((userData && userData.name) || "Player"),
+        fromRole: (userData && userData.role) || "player",
+        text: trimmed,
+        imageData: imageData || null,
+        createdAt: serverTimestamp()
+      });
+    } catch (err) {
+      console.error("Chat send error:", err);
+      showToast("Message bhejne mein masla aaya.", "error");
+      sounds.error();
+    }
+  }
+
+  function wireChatUi(prefix){
+    const input = document.getElementById(`${prefix}ChatInput`);
+    const sendBtn = document.getElementById(`${prefix}ChatSendBtn`);
+    const attachBtn = document.getElementById(`${prefix}ChatAttachBtn`);
+    const fileInput = document.getElementById(`${prefix}ChatImage`);
+    const preview = document.getElementById(`${prefix}ChatPreview`);
+    let pendingImage = null;
+
+    function clearPending(){
+      pendingImage = null;
+      preview.classList.add("hidden");
+      preview.removeAttribute("src");
+    }
+    attachBtn.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files && fileInput.files[0];
+      fileInput.value = "";
+      if (!file) return;
+      try {
+        pendingImage = await fileToCompressedDataUrl(file);
+        preview.src = pendingImage;
+        preview.classList.remove("hidden");
+      } catch (err) {
+        showToast(err.message, "error");
+        sounds.error();
+      }
+    });
+    async function doSend(){
+      const text = input.value;
+      if (!text.trim() && !pendingImage) return;
+      sendBtn.disabled = true;
+      await sendChatMessage(text, pendingImage);
+      sendBtn.disabled = false;
+      input.value = "";
+      clearPending();
+    }
+    sendBtn.addEventListener("click", doSend);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") doSend(); });
+    return { clearPending };
+  }
+
+  const userChatUi = wireChatUi("user");
+  const adminChatUi = wireChatUi("admin");
+
+  // ---------- User chat screen ----------
+  document.getElementById("openChatBtn").addEventListener("click", () => {
+    if (!currentUser) return;
+    showScreen("chat");
+    openChat(currentUser.uid, document.getElementById("userChatMessages"));
+  });
+  document.getElementById("chatBackBtn").addEventListener("click", () => {
+    stopChat();
+    userChatUi.clearPending();
+    showScreen("game");
+  });
+
+  // ---------- Admin chat ----------
+  const adminChatBox = document.getElementById("adminChatBox");
+  const adminChatUsers = document.getElementById("adminChatUsers");
+  const adminChatUsersEmpty = document.getElementById("adminChatUsersEmpty");
+
+  async function loadChatUsers(){
+    adminChatUsers.innerHTML = "";
+    try {
+      const q = query(collection(db, "users"), where("status", "==", "approved"));
+      const snap = await getDocs(q);
+      let count = 0;
+      snap.forEach(d => {
+        if (currentUser && d.id === currentUser.uid) return;
+        count++;
+        const u = d.data();
+        const row = document.createElement("div");
+        row.className = "chat-user-row";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = u.name || "Player";
+        const chatBtn = document.createElement("button");
+        chatBtn.className = "btn btn-outline";
+        chatBtn.textContent = "💬 Chat";
+        chatBtn.addEventListener("click", () => openAdminChat(d.id, u.name || "Player"));
+        row.appendChild(nameSpan); row.appendChild(chatBtn);
+        adminChatUsers.appendChild(row);
+      });
+      adminChatUsersEmpty.classList.toggle("hidden", count > 0);
+    } catch (err) {
+      console.error("Chat users load error:", err);
+    }
+  }
+
+  function openAdminChat(uid, name){
+    document.getElementById("adminChatTitle").textContent = `💬 Chat — ${name}`;
+    adminChatBox.classList.remove("hidden");
+    openChat(uid, document.getElementById("adminChatMessages"));
+    adminChatBox.scrollIntoView({ behavior: "smooth" });
+  }
+
+  document.getElementById("adminChatCloseBtn").addEventListener("click", () => {
+    stopChat();
+    adminChatUi.clearPending();
+    adminChatBox.classList.add("hidden");
+  });
+
+  // ============================================================
   // LEADERBOARD
   // ============================================================
   const leaderboardList = document.getElementById("leaderboardList");
@@ -1154,9 +1602,14 @@
     }
     showScreen("admin");
     loadPendingUsers();
+    loadWalletRequests();
+    loadChatUsers();
   });
 
   document.getElementById("adminExitBtn").addEventListener("click", () => {
+    stopChat();
+    adminChatUi.clearPending();
+    adminChatBox.classList.add("hidden");
     showScreen("game");
   });
 
@@ -1223,404 +1676,12 @@
         showToast("User mustarad kar diya gaya.", "info");
       }
       await loadPendingUsers();
+      loadChatUsers();
     } catch (err) {
       console.error(err);
       showToast("Action fail hua.", "error");
     }
   }
-
-  // ============================================================
-  // SUPPORT CHAT (player <-> admin)
-  // ============================================================
-  // Firestore layout:
-  //   chats/{playerUid}                -> { userName, lastMessage, lastMessageAt,
-  //                                          lastSenderRole, unreadByAdmin, unreadByUser }
-  //   chats/{playerUid}/messages/{id}   -> { text, imageUrl, senderId, senderRole, timestamp }
-  // Storage layout:
-  //   chatImages/{playerUid}/{timestamp}_{filename}
-
-  let playerChatMsgUnsub = null;
-  let playerChatBadgeUnsub = null;
-  let adminChatsListUnsub = null;
-  let adminChatThreadUnsub = null;
-  let pendingChatImageFile = null;       // player's selected screenshot
-  let pendingAdminChatImageFile = null;  // admin's selected screenshot
-  let currentAdminChatUid = null;        // which player's thread admin has open
-
-  function unsubscribeAllChatListeners(){
-    if (playerChatMsgUnsub) { playerChatMsgUnsub(); playerChatMsgUnsub = null; }
-    if (playerChatBadgeUnsub) { playerChatBadgeUnsub(); playerChatBadgeUnsub = null; }
-    if (adminChatsListUnsub) { adminChatsListUnsub(); adminChatsListUnsub = null; }
-    if (adminChatThreadUnsub) { adminChatThreadUnsub(); adminChatThreadUnsub = null; }
-  }
-
-  function formatChatTime(ts){
-    if (!ts) return "";
-    const d = ts.toMillis ? new Date(ts.toMillis()) : new Date(ts);
-    return d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-  }
-
-  function renderChatBubble(container, msg, mine){
-    const bubble = document.createElement("div");
-    bubble.className = `chat-bubble ${mine ? "mine" : "theirs"}`;
-
-    const label = document.createElement("div");
-    label.className = "sender-label";
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = msg.senderRole === "admin" ? "Admin" : (mine ? "Aap" : "Player");
-    label.appendChild(nameSpan);
-
-    if (msg.senderRole === "admin") {
-      const badge = document.createElement("span");
-      badge.className = "admin-badge";
-      badge.textContent = "✓ Verified";
-      badge.title = "Ye nishani sirf asli Admin account ke messages par lagti hai — database rules ke zariye lock hai, koi player ise hasil nahi kar sakta.";
-      label.appendChild(badge);
-    }
-    bubble.appendChild(label);
-
-    if (msg.text) {
-      const textDiv = document.createElement("div");
-      textDiv.textContent = msg.text;
-      textDiv.style.whiteSpace = "pre-wrap";
-      bubble.appendChild(textDiv);
-    }
-    if (msg.imageUrl) {
-      const img = document.createElement("img");
-      img.src = msg.imageUrl;
-      img.alt = "screenshot";
-      img.addEventListener("click", () => window.open(msg.imageUrl, "_blank"));
-      bubble.appendChild(img);
-    }
-    const timeDiv = document.createElement("div");
-    timeDiv.className = "msg-time";
-    timeDiv.textContent = formatChatTime(msg.timestamp);
-    bubble.appendChild(timeDiv);
-
-    container.appendChild(bubble);
-  }
-
-  async function uploadChatImage(chatId, file){
-    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
-      throw new Error("TOO_LARGE");
-    }
-    const path = `chatImages/${chatId}/${Date.now()}_${file.name}`;
-    const fileRef = storageRef(storage, path);
-    await uploadBytes(fileRef, file);
-    return await getDownloadURL(fileRef);
-  }
-
-  async function sendChatMessage({ chatId, text, imageFile, senderRole, userNameForChat }){
-    let imageUrl = null;
-    if (imageFile) {
-      imageUrl = await uploadChatImage(chatId, imageFile);
-    }
-    await addDoc(collection(db, "chats", chatId, "messages"), {
-      text: text || "",
-      imageUrl: imageUrl,
-      senderId: currentUser.uid,
-      senderRole,
-      timestamp: serverTimestamp()
-    });
-
-    const preview = text ? text.slice(0, 60) : "📷 Screenshot";
-    const chatDocData = {
-      lastMessage: preview,
-      lastMessageAt: serverTimestamp(),
-      lastSenderRole: senderRole,
-      unreadByAdmin: senderRole === "player",
-      unreadByUser: senderRole === "admin"
-    };
-    if (userNameForChat) chatDocData.userName = userNameForChat;
-
-    await setDoc(doc(db, "chats", chatId), chatDocData, { merge: true });
-  }
-
-  // ---------------- PLAYER SIDE ----------------
-
-  function subscribePlayerChatBadge(){
-    if (!currentUser) return;
-    if (playerChatBadgeUnsub) playerChatBadgeUnsub();
-    playerChatBadgeUnsub = onSnapshot(doc(db, "chats", currentUser.uid), (snap) => {
-      const dot = document.getElementById("chatUnreadDot");
-      if (snap.exists() && snap.data().unreadByUser) {
-        dot.classList.remove("hidden");
-      } else {
-        dot.classList.add("hidden");
-      }
-    });
-  }
-
-  function openPlayerChat(){
-    if (!currentUser || !userData) return;
-    showScreen("chat");
-    clearChatAttachPreview(false);
-
-    const messagesEl = document.getElementById("chatMessages");
-    const emptyEl = document.getElementById("chatEmpty");
-    messagesEl.innerHTML = "";
-
-    if (playerChatMsgUnsub) playerChatMsgUnsub();
-    const q = query(
-      collection(db, "chats", currentUser.uid, "messages"),
-      orderBy("timestamp", "asc"),
-      limit(200)
-    );
-    playerChatMsgUnsub = onSnapshot(q, (snap) => {
-      messagesEl.innerHTML = "";
-      if (snap.empty) {
-        emptyEl.classList.remove("hidden");
-      } else {
-        emptyEl.classList.add("hidden");
-        snap.forEach((d) => {
-          const msg = d.data();
-          renderChatBubble(messagesEl, msg, msg.senderRole === "player");
-        });
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
-    });
-
-    // Mark as read by user (clears admin-reply badge)
-    setDoc(doc(db, "chats", currentUser.uid), { unreadByUser: false }, { merge: true }).catch(() => {});
-  }
-
-  document.getElementById("openChatBtn").addEventListener("click", openPlayerChat);
-
-  document.getElementById("chatBackBtn").addEventListener("click", () => {
-    if (playerChatMsgUnsub) { playerChatMsgUnsub(); playerChatMsgUnsub = null; }
-    clearChatAttachPreview(false);
-    showScreen("game");
-  });
-
-  function clearChatAttachPreview(isAdmin){
-    if (isAdmin) {
-      pendingAdminChatImageFile = null;
-      document.getElementById("adminChatImageInput").value = "";
-      document.getElementById("adminChatAttachPreview").classList.add("hidden");
-    } else {
-      pendingChatImageFile = null;
-      document.getElementById("chatImageInput").value = "";
-      document.getElementById("chatAttachPreview").classList.add("hidden");
-    }
-  }
-
-  document.getElementById("chatAttachBtn").addEventListener("click", () => {
-    document.getElementById("chatImageInput").click();
-  });
-  document.getElementById("chatImageInput").addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
-      showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
-      e.target.value = "";
-      return;
-    }
-    pendingChatImageFile = file;
-    document.getElementById("chatAttachName").textContent = `📷 ${file.name}`;
-    document.getElementById("chatAttachPreview").classList.remove("hidden");
-  });
-  document.getElementById("chatAttachRemove").addEventListener("click", () => clearChatAttachPreview(false));
-
-  async function handleSendPlayerChat(){
-    const textEl = document.getElementById("chatTextInput");
-    const text = textEl.value.trim();
-    if (!text && !pendingChatImageFile) return;
-    const sendBtn = document.getElementById("chatSendBtn");
-    sendBtn.disabled = true;
-    try {
-      await sendChatMessage({
-        chatId: currentUser.uid,
-        text,
-        imageFile: pendingChatImageFile,
-        senderRole: "player",
-        userNameForChat: userData.name || "Player"
-      });
-      textEl.value = "";
-      clearChatAttachPreview(false);
-    } catch (err) {
-      console.error(err);
-      if (err.message === "TOO_LARGE") {
-        showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
-      } else {
-        showToast("Paigham bhejne mein masla aaya.", "error");
-      }
-    } finally {
-      sendBtn.disabled = false;
-    }
-  }
-  document.getElementById("chatSendBtn").addEventListener("click", handleSendPlayerChat);
-  document.getElementById("chatTextInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendPlayerChat();
-    }
-  });
-
-  // ---------------- ADMIN SIDE ----------------
-
-  document.getElementById("adminTabRequests").addEventListener("click", () => {
-    document.getElementById("adminTabRequests").classList.add("active");
-    document.getElementById("adminTabChats").classList.remove("active");
-    document.getElementById("adminRequestsPanel").classList.remove("hidden");
-    document.getElementById("adminChatsPanel").classList.add("hidden");
-  });
-
-  document.getElementById("adminTabChats").addEventListener("click", () => {
-    document.getElementById("adminTabChats").classList.add("active");
-    document.getElementById("adminTabRequests").classList.remove("active");
-    document.getElementById("adminChatsPanel").classList.remove("hidden");
-    document.getElementById("adminRequestsPanel").classList.add("hidden");
-    showAdminChatsList();
-  });
-
-  function showAdminChatsList(){
-    document.getElementById("adminChatsListView").classList.remove("hidden");
-    document.getElementById("adminChatThreadView").classList.add("hidden");
-    if (adminChatThreadUnsub) { adminChatThreadUnsub(); adminChatThreadUnsub = null; }
-    currentAdminChatUid = null;
-    subscribeAdminChatsList();
-  }
-
-  function subscribeAdminChatsList(){
-    if (adminChatsListUnsub) adminChatsListUnsub();
-    const listEl = document.getElementById("adminChatsList");
-    const emptyEl = document.getElementById("adminChatsEmpty");
-    const q = query(collection(db, "chats"), orderBy("lastMessageAt", "desc"));
-    adminChatsListUnsub = onSnapshot(q, (snap) => {
-      listEl.innerHTML = "";
-      let anyUnread = false;
-      if (snap.empty) {
-        emptyEl.classList.remove("hidden");
-      } else {
-        emptyEl.classList.add("hidden");
-        snap.forEach((d) => {
-          const c = d.data();
-          const uid = d.id;
-          if (c.unreadByAdmin) anyUnread = true;
-          const row = document.createElement("div");
-          row.className = "admin-chat-row";
-
-          const left = document.createElement("div");
-          const nameDiv = document.createElement("div");
-          nameDiv.className = "chat-row-name";
-          nameDiv.textContent = c.userName || "Player";
-          if (c.unreadByAdmin) {
-            const dot = document.createElement("span");
-            dot.className = "unread-dot";
-            nameDiv.appendChild(dot);
-          }
-          const previewDiv = document.createElement("div");
-          previewDiv.className = "chat-row-preview";
-          previewDiv.textContent = c.lastMessage || "";
-          left.appendChild(nameDiv);
-          left.appendChild(previewDiv);
-          row.appendChild(left);
-
-          row.addEventListener("click", () => openAdminChatThread(uid, c.userName || "Player"));
-          listEl.appendChild(row);
-        });
-      }
-      const badge = document.getElementById("adminChatUnreadDot");
-      anyUnread ? badge.classList.remove("hidden") : badge.classList.add("hidden");
-    });
-  }
-
-  function openAdminChatThread(uid, name){
-    currentAdminChatUid = uid;
-    document.getElementById("adminChatsListView").classList.add("hidden");
-    document.getElementById("adminChatThreadView").classList.remove("hidden");
-    document.getElementById("adminChatThreadTitle").textContent = name;
-    clearChatAttachPreview(true);
-
-    const messagesEl = document.getElementById("adminChatMessages");
-    messagesEl.innerHTML = "";
-
-    if (adminChatThreadUnsub) adminChatThreadUnsub();
-    const q = query(
-      collection(db, "chats", uid, "messages"),
-      orderBy("timestamp", "asc"),
-      limit(200)
-    );
-    adminChatThreadUnsub = onSnapshot(q, (snap) => {
-      messagesEl.innerHTML = "";
-      snap.forEach((d) => {
-        const msg = d.data();
-        renderChatBubble(messagesEl, msg, msg.senderRole === "admin");
-      });
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    });
-
-    setDoc(doc(db, "chats", uid), { unreadByAdmin: false }, { merge: true }).catch(() => {});
-  }
-
-  document.getElementById("adminChatBackBtn").addEventListener("click", () => {
-    showAdminChatsList();
-  });
-
-  document.getElementById("adminChatAttachBtn").addEventListener("click", () => {
-    document.getElementById("adminChatImageInput").click();
-  });
-  document.getElementById("adminChatImageInput").addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
-      showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
-      e.target.value = "";
-      return;
-    }
-    pendingAdminChatImageFile = file;
-    document.getElementById("adminChatAttachName").textContent = `📷 ${file.name}`;
-    document.getElementById("adminChatAttachPreview").classList.remove("hidden");
-  });
-  document.getElementById("adminChatAttachRemove").addEventListener("click", () => clearChatAttachPreview(true));
-
-  async function handleSendAdminChat(){
-    if (!currentAdminChatUid) return;
-    const textEl = document.getElementById("adminChatTextInput");
-    const text = textEl.value.trim();
-    if (!text && !pendingAdminChatImageFile) return;
-    const sendBtn = document.getElementById("adminChatSendBtn");
-    sendBtn.disabled = true;
-    try {
-      await sendChatMessage({
-        chatId: currentAdminChatUid,
-        text,
-        imageFile: pendingAdminChatImageFile,
-        senderRole: "admin"
-      });
-      textEl.value = "";
-      clearChatAttachPreview(true);
-    } catch (err) {
-      console.error(err);
-      if (err.message === "TOO_LARGE") {
-        showToast(`Tasveer ${MAX_IMAGE_MB}MB se choti honi chahiye.`, "error");
-      } else {
-        showToast("Paigham bhejne mein masla aaya.", "error");
-      }
-    } finally {
-      sendBtn.disabled = false;
-    }
-  }
-  document.getElementById("adminChatSendBtn").addEventListener("click", handleSendAdminChat);
-  document.getElementById("adminChatTextInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendAdminChat();
-    }
-  });
-
-  // Reset admin screen to "Darkhwastein" tab + subscribe chat badge whenever admin panel opens
-  document.getElementById("openAdminBtn").addEventListener("click", () => {
-    if (!userData || userData.role !== "admin") return;
-    document.getElementById("adminTabRequests").click();
-    subscribeAdminChatsList(); // keep badge live even on requests tab
-  });
-
-  document.getElementById("adminExitBtn").addEventListener("click", () => {
-    if (adminChatsListUnsub) { adminChatsListUnsub(); adminChatsListUnsub = null; }
-    if (adminChatThreadUnsub) { adminChatThreadUnsub(); adminChatThreadUnsub = null; }
-  });
 
   // ============================================================
   // INIT
