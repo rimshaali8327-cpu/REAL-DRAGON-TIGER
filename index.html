@@ -372,8 +372,7 @@
     </header>
 
     <div class="bonus-row">
-      <button id="bonusBtn" class="btn btn-outline" style="width:auto;padding:8px 14px;">🎁 Roz Ka Bonus</button>
-      <span id="bonusTimer" style="color:var(--muted);font-size:11px;"></span>
+      <span style="color:var(--muted);font-size:11px;">Coins sirf admin deposit approve karne par milte hain — 💳 Demo Wallet istemal karein.</span>
     </div>
 
     <main class="table">
@@ -558,9 +557,6 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const STARTING_COINS = 1000;
-  const DAILY_BONUS_COINS = 200;
-  const DAILY_BONUS_COOLDOWN_HOURS = 24;
   const MIN_BET = 10;
   const TIE_PAYOUT = 8;
   const NORMAL_PAYOUT = 2;
@@ -620,7 +616,6 @@
     win:    () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 0.18, "sine", 0.16), i * 90)); },
     lose:   () => { [400, 320, 240].forEach((f, i) => setTimeout(() => playTone(f, 0.22, "sawtooth", 0.10), i * 110)); },
     tie:    () => { playTone(600, 0.15, "sine", 0.14); setTimeout(() => playTone(600, 0.15, "sine", 0.14), 180); },
-    bonus:  () => { [440, 554, 659, 880].forEach((f, i) => setTimeout(() => playTone(f, 0.22, "triangle", 0.16), i * 80)); },
     error:  () => playTone(180, 0.25, "square", 0.10),
   };
 
@@ -705,7 +700,6 @@
         status: "pending",
         role: "player",
         coins: 0,
-        lastBonusAt: null,
         stats: { gamesPlayed: 0, wins: 0, losses: 0, ties: 0, biggestWin: 0 },
         createdAt: serverTimestamp()
       });
@@ -793,7 +787,6 @@
     if (userData.status === "approved") {
       showScreen("game");
       renderPlayer(true);
-      updateBonusButton();
       loadLeaderboard();
       loadHistory();
       loadMyRequests();
@@ -827,66 +820,6 @@
       displayedCoins = target;
     }
   }
-
-  // ============================================================
-  // DAILY BONUS (transaction-protected)
-  // ============================================================
-  const bonusBtn = document.getElementById("bonusBtn");
-  const bonusTimer = document.getElementById("bonusTimer");
-
-  function updateBonusButton(){
-    const last = userData.lastBonusAt;
-    if (!last) { bonusBtn.disabled = false; bonusTimer.textContent = ""; return; }
-    const lastMs = last.toMillis ? last.toMillis() : new Date(last).getTime();
-    const cooldownMs = DAILY_BONUS_COOLDOWN_HOURS * 60 * 60 * 1000;
-    const remaining = lastMs + cooldownMs - Date.now();
-    if (remaining <= 0) { bonusBtn.disabled = false; bonusTimer.textContent = ""; }
-    else {
-      bonusBtn.disabled = true;
-      const hrs = Math.floor(remaining / 3600000);
-      const mins = Math.floor((remaining % 3600000) / 60000);
-      bonusTimer.textContent = `Agla bonus: ${hrs}h ${mins}m baad`;
-    }
-  }
-
-  bonusBtn.addEventListener("click", async () => {
-    if (!currentUser) return;
-    bonusBtn.disabled = true;
-    try {
-      const ref = doc(db, "users", currentUser.uid);
-      await runTransaction(db, async (tx) => {
-        const snap = await tx.get(ref);
-        if (!snap.exists()) throw new Error("User doc missing");
-        const data = snap.data();
-        const last = data.lastBonusAt;
-        if (last) {
-          const lastMs = last.toMillis ? last.toMillis() : new Date(last).getTime();
-          const cooldownMs = DAILY_BONUS_COOLDOWN_HOURS * 60 * 60 * 1000;
-          if (Date.now() - lastMs < cooldownMs) {
-            throw new Error("COOLDOWN");
-          }
-        }
-        tx.update(ref, {
-          coins: increment(DAILY_BONUS_COINS),
-          lastBonusAt: serverTimestamp()
-        });
-      });
-      await loadUserDoc();
-      renderPlayer();
-      updateBonusButton();
-      sounds.bonus();
-      showToast(`🎁 +${DAILY_BONUS_COINS} coins mil gaye!`, "success");
-    } catch (err) {
-      bonusBtn.disabled = false;
-      updateBonusButton();
-      if (err.message === "COOLDOWN") {
-        showToast("Aap pehle hi bonus le chuke hain. 24 ghante baad koshish karein.", "error");
-      } else {
-        showToast("Bonus lene mein masla aaya.", "error");
-      }
-      sounds.error();
-    }
-  });
 
   // ============================================================
   // BETTING — CHIPS & CHOICE
@@ -1031,7 +964,7 @@
       loadHistory();
     } catch (err) {
       if (err.message === "INSUFFICIENT") {
-        resultTextEl.textContent = "Coins kam hain. Bonus lein ya choti bet lagayein.";
+        resultTextEl.textContent = "Coins kam hain. Deposit request bhejein ya choti bet lagayein.";
         sounds.error();
       } else {
         resultTextEl.textContent = "Transaction fail hui, dobara koshish karein.";
@@ -1586,8 +1519,6 @@
     }
   }
 
-  setInterval(() => { if (userData && !screens.game.classList.contains("hidden")) updateBonusButton(); }, 60000);
-
   // ============================================================
   // ADMIN (role-based, secure)
   // ============================================================
@@ -1669,8 +1600,8 @@
     try {
       const ref = doc(db, "users", uid);
       if (action === "approve") {
-        await updateDoc(ref, { status: "approved", coins: STARTING_COINS });
-        showToast("User manzoor ho gaya. 1000 coins mil gaye.", "success");
+        await updateDoc(ref, { status: "approved" });
+        showToast("User manzoor ho gaya. Coins 0 hain — deposit approve kar ke coins dein.", "success");
       } else {
         await updateDoc(ref, { status: "rejected" });
         showToast("User mustarad kar diya gaya.", "info");
