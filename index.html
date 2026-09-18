@@ -196,7 +196,7 @@
   .history-list .h-tie{color:var(--gold-bright);}
   .history-empty{font-size:12px;color:var(--muted);text-align:center;padding:14px;}
 
-  /* ---------- Demo wallet (simulation) ---------- */
+  /* ---------- Wallet ---------- */
   .wallet-tabs{display:flex;gap:6px;margin-bottom:12px;}
   .wallet-tab{flex:1;padding:8px;background:transparent;border:1px solid rgba(201,162,39,.25);
     color:var(--muted);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.04em;border-radius:4px;cursor:pointer;}
@@ -372,7 +372,7 @@
     </header>
 
     <div class="bonus-row">
-      <span style="color:var(--muted);font-size:11px;">Coins sirf admin deposit approve karne par milte hain — 💳 Demo Wallet istemal karein.</span>
+      <span style="color:var(--muted);font-size:11px;">Coins sirf admin deposit approve karne par milte hain — 💳 Wallet istemal karein.</span>
     </div>
 
     <main class="table">
@@ -429,8 +429,8 @@
     <div class="hairline"></div>
 
     <section class="wallet">
-      <h3 style="font-size:13px;color:var(--gold-bright);margin-bottom:10px;letter-spacing:.04em;">💳 Demo Wallet (Simulation)</h3>
-      <p class="wallet-note">⚠️ Yeh sirf seekhne ke liye nakli workflow hai — koi asli paisa ya crypto involve nahi. Rate: 1 demo dollar = 200 coins. Admin 24 ghante ke andar review karta hai.</p>
+      <h3 style="font-size:13px;color:var(--gold-bright);margin-bottom:10px;letter-spacing:.04em;">💳 Wallet</h3>
+      <p class="wallet-note">⚠️ Coins virtual hain — koi asli paisa ya crypto involve nahi. Rate: 1 dollar = 200 coins. Admin 24 ghante ke andar review karta hai.</p>
       <div class="wallet-tabs">
         <button class="wallet-tab active" id="wTabDeposit">Deposit</button>
         <button class="wallet-tab" id="wTabWithdraw">Withdraw</button>
@@ -438,17 +438,17 @@
       </div>
 
       <div id="wPaneDeposit">
-        <div class="field"><label>Demo Dollars</label><input type="number" id="depDollars" min="1" step="1" value="1" /></div>
+        <div class="field"><label>Dollars</label><input type="number" id="depDollars" min="1" step="1" value="1" /></div>
         <p class="conv-preview" id="depPreview">= 200 coins</p>
-        <div class="field"><label>Demo Wallet Address</label><input type="text" id="depWallet" placeholder="0x... (nakli address)" /></div>
-        <div class="field"><label>Demo Transaction ID (TxID)</label><input type="text" id="depTxId" placeholder="TX-123456" /></div>
+        <div class="field"><label>Wallet Address</label><input type="text" id="depWallet" placeholder="0x..." /></div>
+        <div class="field"><label>Transaction ID (TxID)</label><input type="text" id="depTxId" placeholder="TX-123456" /></div>
         <button class="btn btn-jade" id="depSubmitBtn">Deposit Request Bhejein</button>
       </div>
 
       <div id="wPaneWithdraw" class="hidden">
         <div class="field"><label>Coins</label><input type="number" id="wdCoins" min="200" step="200" value="200" /></div>
-        <p class="conv-preview" id="wdPreview">= 1.00 demo dollars</p>
-        <div class="field"><label>Demo Wallet Address</label><input type="text" id="wdWallet" placeholder="0x... (nakli address)" /></div>
+        <p class="conv-preview" id="wdPreview">= 1.00 dollars</p>
+        <div class="field"><label>Wallet Address</label><input type="text" id="wdWallet" placeholder="0x..." /></div>
         <button class="btn btn-outline" id="wdSubmitBtn">Withdraw Request Bhejein</button>
       </div>
 
@@ -498,8 +498,8 @@
     <p id="adminEmpty" class="capture-note hidden">Koi zair-e-ghor darkhwast nahi hai.</p>
 
     <div class="hairline"></div>
-    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:6px;">💳 Wallet Requests (Demo)</h2>
-    <p class="wallet-note">Approve karne par coins user ke balance mein add/deduct honge (1 demo dollar = 200 coins).</p>
+    <h2 style="color:var(--gold-bright);font-size:16px;margin-bottom:6px;">💳 Wallet Requests</h2>
+    <p class="wallet-note">Approve karne par coins user ke balance mein add/deduct honge (1 dollar = 200 coins).</p>
     <div id="adminWalletList"></div>
     <p id="adminWalletEmpty" class="capture-note hidden">Koi pending wallet request nahi.</p>
 
@@ -1020,9 +1020,9 @@
   }
 
   // ============================================================
-  // DEMO WALLET (simulation only — koi asli paisa shamil nahi)
+  // WALLET (virtual coins — koi asli paisa shamil nahi)
   // ============================================================
-  const COINS_PER_DEMO_DOLLAR = 200;
+  const COINS_PER_DOLLAR = 200;
   const WALLET_SLA_HOURS = 24;
 
   const walletPanes = {
@@ -1050,11 +1050,11 @@
   const wdCoinsInput = document.getElementById("wdCoins");
   depDollarsInput.addEventListener("input", () => {
     const d = Math.max(0, parseInt(depDollarsInput.value, 10) || 0);
-    document.getElementById("depPreview").textContent = `= ${d * COINS_PER_DEMO_DOLLAR} coins`;
+    document.getElementById("depPreview").textContent = `= ${d * COINS_PER_DOLLAR} coins`;
   });
   wdCoinsInput.addEventListener("input", () => {
     const c = Math.max(0, parseInt(wdCoinsInput.value, 10) || 0);
-    document.getElementById("wdPreview").textContent = `= ${(c / COINS_PER_DEMO_DOLLAR).toFixed(2)} demo dollars`;
+    document.getElementById("wdPreview").textContent = `= ${(c / COINS_PER_DOLLAR).toFixed(2)} dollars`;
   });
 
   document.getElementById("depSubmitBtn").addEventListener("click", async () => {
@@ -1062,16 +1062,16 @@
     const dollars = parseInt(depDollarsInput.value, 10) || 0;
     const wallet = document.getElementById("depWallet").value.trim();
     const txId = document.getElementById("depTxId").value.trim();
-    if (dollars < 1) { showToast("Kam az kam 1 demo dollar darj karein.", "error"); sounds.error(); return; }
-    if (wallet.length < 8) { showToast("Demo wallet address theek nahi lagta.", "error"); sounds.error(); return; }
-    if (!txId) { showToast("Demo Transaction ID (TxID) zaroori hai.", "error"); sounds.error(); return; }
+    if (dollars < 1) { showToast("Kam az kam 1 dollar darj karein.", "error"); sounds.error(); return; }
+    if (wallet.length < 8) { showToast("Wallet address theek nahi lagta.", "error"); sounds.error(); return; }
+    if (!txId) { showToast("Transaction ID (TxID) zaroori hai.", "error"); sounds.error(); return; }
     try {
       await addDoc(collection(db, "walletRequests"), {
         uid: currentUser.uid,
         userName: userData.name || "Player",
         type: "deposit",
         demoDollars: dollars,
-        coins: dollars * COINS_PER_DEMO_DOLLAR,
+        coins: dollars * COINS_PER_DOLLAR,
         walletAddress: wallet.slice(0, 120),
         txId: txId.slice(0, 120),
         status: "pending",
@@ -1094,16 +1094,16 @@
     const coins = parseInt(wdCoinsInput.value, 10) || 0;
     const wallet = document.getElementById("wdWallet").value.trim();
     const balance = Number(userData.coins) || 0;
-    if (coins < COINS_PER_DEMO_DOLLAR) { showToast(`Kam az kam ${COINS_PER_DEMO_DOLLAR} coins (1 demo dollar) withdraw ho sakte hain.`, "error"); sounds.error(); return; }
-    if (coins % COINS_PER_DEMO_DOLLAR !== 0) { showToast(`Coins ${COINS_PER_DEMO_DOLLAR} ke poore hisaab mein hon.`, "error"); sounds.error(); return; }
+    if (coins < COINS_PER_DOLLAR) { showToast(`Kam az kam ${COINS_PER_DOLLAR} coins (1 dollar) withdraw ho sakte hain.`, "error"); sounds.error(); return; }
+    if (coins % COINS_PER_DOLLAR !== 0) { showToast(`Coins ${COINS_PER_DOLLAR} ke poore hisaab mein hon.`, "error"); sounds.error(); return; }
     if (coins > balance) { showToast("Aapke balance se zyada coins withdraw nahi ho sakte.", "error"); sounds.error(); return; }
-    if (wallet.length < 8) { showToast("Demo wallet address theek nahi lagta.", "error"); sounds.error(); return; }
+    if (wallet.length < 8) { showToast("Wallet address theek nahi lagta.", "error"); sounds.error(); return; }
     try {
       await addDoc(collection(db, "walletRequests"), {
         uid: currentUser.uid,
         userName: userData.name || "Player",
         type: "withdraw",
-        demoDollars: coins / COINS_PER_DEMO_DOLLAR,
+        demoDollars: coins / COINS_PER_DOLLAR,
         coins,
         walletAddress: wallet.slice(0, 120),
         txId: "",
@@ -1158,7 +1158,7 @@
             <strong>${r.type === "deposit" ? "⬇️ Deposit" : "⬆️ Withdraw"} ${statusBadge(r.status)}</strong>
           </div>
           <div class="req-meta">
-            ${escapeHtml(r.demoDollars)} demo dollars · ${escapeHtml(r.coins)} coins<br/>
+            ${escapeHtml(r.demoDollars)} dollars · ${escapeHtml(r.coins)} coins<br/>
             Wallet: ${escapeHtml(r.walletAddress || "—")}${r.txId ? `<br/>TxID: ${escapeHtml(r.txId)}` : ""}
             ${r.status === "pending" ? `<br/>⏳ ${escapeHtml(slaText(r.createdAt))}` : (timeStr ? `<br/>${escapeHtml(timeStr)}` : "")}
           </div>`;
@@ -1193,7 +1193,7 @@
           </div>
           <div class="req-meta">
             👤 ${escapeHtml(r.userName || "—")}<br/>
-            💵 ${escapeHtml(r.demoDollars)} demo dollars · 🪙 ${escapeHtml(r.coins)} coins<br/>
+            💵 ${escapeHtml(r.demoDollars)} dollars · 🪙 ${escapeHtml(r.coins)} coins<br/>
             Wallet: ${escapeHtml(r.walletAddress || "—")}${r.txId ? `<br/>TxID: ${escapeHtml(r.txId)}` : ""}<br/>
             ⏳ ${escapeHtml(slaText(r.createdAt))}
           </div>`;
